@@ -46,7 +46,7 @@ export default function FeaturedProductsSection({
         </div>
 
         {/* 4 Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div className="flex overflow-x-scroll gap-5 ">
           {products.map((item) => {
             const isWishlisted = wishlist.includes(item.id);
 
