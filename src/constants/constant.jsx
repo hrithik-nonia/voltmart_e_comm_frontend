@@ -8,6 +8,13 @@ import {
   Truck,
   Headset,
   ShieldCheck,
+  LayoutDashboard,
+  Package,
+  FileText,
+  Grid,
+  Users,
+  LineChart,
+  Settings,
 } from "lucide-react";
 
 export const Categories = [
@@ -125,4 +132,14 @@ export const Perks = [
     icon: ShieldCheck,
     badgeStyle: "bg-amber-950/80 border-amber-800/60 text-amber-500",
   },
+];
+
+export const MenuItems = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { id: "products", label: "Products", icon: Package },
+  { id: "orders", label: "Orders", icon: FileText, badge: 18 },
+  { id: "categories", label: "Categories", icon: Grid },
+  { id: "customers", label: "Customers", icon: Users },
+  { id: "analytics", label: "Analytics", icon: LineChart },
+  { id: "settings", label: "System Settings", icon: Settings },
 ];
