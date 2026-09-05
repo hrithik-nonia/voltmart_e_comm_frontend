@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Zap, Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 
-export function Navbar({
+export default function Navbar({
   cartCount = 2,
   user = {
     name: "Alex Chen",
