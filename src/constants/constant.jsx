@@ -5,6 +5,9 @@ import {
   Camera,
   Gamepad2,
   Keyboard,
+  Truck,
+  Headset,
+  ShieldCheck,
 } from "lucide-react";
 
 export const Categories = [
@@ -100,5 +103,26 @@ export const MockProducts = [
     reviews: "890",
     price: "₹14,499",
     originalPrice: "₹18,999",
+  },
+];
+
+export const Perks = [
+  {
+    title: "Free Shipping over ₹999",
+    description: "Orders delivered via hyper-speed node",
+    icon: Truck,
+    badgeStyle: "bg-blue-950/80 border-blue-800/60 text-blue-400",
+  },
+  {
+    title: "24/7 Expert Tech Support",
+    description: "Direct engineer diagnostics on live call",
+    icon: Headset,
+    badgeStyle: "bg-cyan-950/80 border-cyan-800/60 text-cyan-400",
+  },
+  {
+    title: "Easy 10-Day Returns",
+    description: "Hassle-free instant refund & doorstep pickup",
+    icon: ShieldCheck,
+    badgeStyle: "bg-amber-950/80 border-amber-800/60 text-amber-500",
   },
 ];

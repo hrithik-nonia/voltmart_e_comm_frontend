@@ -4,6 +4,7 @@
 import VoltmartHeroSection from "../components/landingPageComponents/VoltmartHeroSection";
 import ShopByCategorySection from "../components/landingPageComponents/ShopByCategorySection";
 import FeaturedProductsSection from "../components/landingPageComponents/FeaturedProductsSection";
+import TrustPerksBanner from "../components/landingPageComponents/TrustPerksBanner";
 
 function LandingPage() {
   return (
@@ -23,7 +24,11 @@ function LandingPage() {
         <section>
           <FeaturedProductsSection />
         </section>
-        <section></section>
+
+        {/* Trust Perks Banner */}
+        <section>
+          <TrustPerksBanner />
+        </section>
       </section>
     </>
   );
