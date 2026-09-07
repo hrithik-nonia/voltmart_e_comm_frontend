@@ -16,6 +16,8 @@ import Navbar from "../components/commonComponents/NavBar";
 import VoltmartFooter from "../components/commonComponents/VoltmartFooter";
 import DashboardTopBar from "../components/commonComponents/AdminNavbar";
 import AdminSidebar from "../components/commonComponents/AdminSidebar";
+import RoleRedirect from "./RoleRedirect";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 function FirstOutlet() {
   return (
@@ -53,17 +55,46 @@ function AppRoutes() {
             {/* first layout for long navbar */}
 
             <Route element={<FirstOutlet />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/my-order" element={<MyOrdersPage />} />
-              <Route path="/check-out" element={<SecureCheckOutPage />} />
-              <Route path="/cart" element={<ShopingCartPage />} />
+              <Route path="/" element={<RoleRedirect />} />
+              <Route path="/shop" element={<LandingPage />} />
+              <Route
+                path="/my-order"
+                element={
+                  <ProtectedRoute role="user">
+                    <MyOrdersPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/check-out"
+                element={
+                  <ProtectedRoute role="user">
+                    <SecureCheckOutPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute role="user">
+                    <ShopingCartPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/product-detail" element={<ProductDetailPage />} />
               <Route path="/filter" element={<FilterPage />} />
             </Route>
 
             {/* second layout for short navbar */}
             <Route element={<SecondOutlet />}>
-              <Route path="/admin" element={<AdminPage />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute role="admin">
+                    <AdminPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         </BrowserRouter>

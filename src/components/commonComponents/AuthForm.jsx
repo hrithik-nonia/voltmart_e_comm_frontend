@@ -10,7 +10,7 @@ import { useMessage } from "../../context/MessageContext";
 export default function AuthForm({ onClose }) {
   const [activeTab, setActiveTab] = useState("signin");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const { showError, showSuccess } = useMessage();
   const navigate = useNavigate();
@@ -34,12 +34,20 @@ export default function AuthForm({ onClose }) {
   // ── Apollo login mutation ──
   const [login, { loading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
+      const token = data.login.token;
       // Token localStorage mein save karo
-      localStorage.setItem("access_token", data.login.token);
+      localStorage.setItem("access_token", token);
       localStorage.setItem("user_data", JSON.stringify(data.login.user));
       showSuccess(data?.login?.message);
       onClose();
-      navigate("/");
+
+      const payload = JSON.parse(atob(token.split(".")[1]));
+
+      if (payload.role === "admin") {
+        navigate("/admin");
+      } else if (payload.role === "user") {
+        navigate("/");
+      }
     },
     onError: (err) => {
       showError(err.message);

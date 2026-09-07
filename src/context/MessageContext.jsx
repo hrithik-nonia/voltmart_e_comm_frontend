@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 import MinimalErrorCard from "../components/commonComponents/MinimalErrorCard";
 import SuccessModal from "../components/commonComponents/SuccessModal";
-import { ErrorBoundary } from "../components/commonComponents/ErrorBoundary";
+import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 
 const MessageContext = createContext();
 
