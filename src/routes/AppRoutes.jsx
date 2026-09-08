@@ -5,7 +5,7 @@ import { lazy, Suspense } from "react";
 // component imports
 const LandingPage = lazy(() => import("../pages/LandingPage"));
 const FilterPage = lazy(() => import("../pages/FilterPage"));
-const AdminPage = lazy(() => import("../pages/AdminPage"));
+const AdminDashBoard = lazy(() => import("../pages/AdminDashBoard"));
 const MyOrdersPage = lazy(() => import("../pages/MyOrdersPage"));
 const ProductDetailPage = lazy(() => import("../pages/ProductDetailPage"));
 const SecureCheckOutPage = lazy(() => import("../pages/SecureCheckOutPage"));
@@ -91,7 +91,7 @@ function AppRoutes() {
                 path="/admin"
                 element={
                   <ProtectedRoute role="admin">
-                    <AdminPage />
+                    <AdminDashBoard />
                   </ProtectedRoute>
                 }
               />

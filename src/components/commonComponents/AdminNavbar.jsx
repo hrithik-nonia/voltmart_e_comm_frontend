@@ -97,7 +97,9 @@ export default function DashboardTopBar({
       )}
 
       {showNotificationDropdown && (
-        <ErrorBoundary fallback={<div>Profile Dropdown Component Fatta!</div>}>
+        <ErrorBoundary
+          fallback={<div>Notification Dropdown Component Fatta!</div>}
+        >
           <NotificationsDropdown />
         </ErrorBoundary>
       )}
