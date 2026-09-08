@@ -34,11 +34,6 @@ export default function AdminSidebar({
               </p>
             </div>
           </div>
-
-          {/* Version Badge */}
-          <span className="rounded-full border border-cyan-800/60 bg-cyan-950/80 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-400">
-            v2.4
-          </span>
         </div>
 
         {/* Navigation Items List */}
