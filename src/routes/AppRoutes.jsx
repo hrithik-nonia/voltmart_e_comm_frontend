@@ -10,6 +10,7 @@ const MyOrdersPage = lazy(() => import("../pages/MyOrdersPage"));
 const ProductDetailPage = lazy(() => import("../pages/ProductDetailPage"));
 const SecureCheckOutPage = lazy(() => import("../pages/SecureCheckOutPage"));
 const ShopingCartPage = lazy(() => import("../pages/ShopingCartPage"));
+const AdminProductPage = lazy(() => import("../pages/AdminProductPage"));
 
 import VoltmartPreloader from "../components/commonComponents/VoltmartPreloader";
 import Navbar from "../components/commonComponents/NavBar";
@@ -18,13 +19,20 @@ import DashboardTopBar from "../components/commonComponents/AdminNavbar";
 import AdminSidebar from "../components/commonComponents/AdminSidebar";
 import RoleRedirect from "./RoleRedirect";
 import { ProtectedRoute } from "./ProtectedRoute";
+import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 
 function FirstOutlet() {
   return (
     <>
-      <Navbar />
+      <ErrorBoundary fallback={<div>Navbar Component Fatta!</div>}>
+        <Navbar />
+      </ErrorBoundary>
+
       <Outlet />
-      <VoltmartFooter />
+
+      <ErrorBoundary fallback={<div>Footer Component Fatta!</div>}>
+        <VoltmartFooter />
+      </ErrorBoundary>
     </>
   );
 }
@@ -34,11 +42,15 @@ function SecondOutlet() {
     <>
       <div className="grid grid-cols-1 md:grid-cols-7 lg:grid-cols-6">
         <div className="hidden md:flex md:col-span-2 lg:col-span-1">
-          <AdminSidebar />
+          <ErrorBoundary fallback={<div>Sidebar Component Fatta!</div>}>
+            <AdminSidebar />
+          </ErrorBoundary>
         </div>
 
         <div className="md:col-span-5 lg:col-span-5">
-          <DashboardTopBar />
+          <ErrorBoundary fallback={<div>Kuch To Fatta!</div>}>
+            <DashboardTopBar />
+          </ErrorBoundary>
           <Outlet />
         </div>
       </div>
@@ -56,12 +68,21 @@ function AppRoutes() {
 
             <Route element={<FirstOutlet />}>
               <Route path="/" element={<RoleRedirect />} />
-              <Route path="/shop" element={<LandingPage />} />
+              <Route
+                path="/shop"
+                element={
+                  <ErrorBoundary fallback={<div>Landing Page Fatta!</div>}>
+                    <LandingPage />
+                  </ErrorBoundary>
+                }
+              />
               <Route
                 path="/my-order"
                 element={
                   <ProtectedRoute role="user">
-                    <MyOrdersPage />
+                    <ErrorBoundary fallback={<div>Orders Page Fatta!</div>}>
+                      <MyOrdersPage />
+                    </ErrorBoundary>
                   </ProtectedRoute>
                 }
               />
@@ -69,7 +90,9 @@ function AppRoutes() {
                 path="/check-out"
                 element={
                   <ProtectedRoute role="user">
-                    <SecureCheckOutPage />
+                    <ErrorBoundary fallback={<div>Paymant Page Fatta!</div>}>
+                      <SecureCheckOutPage />
+                    </ErrorBoundary>
                   </ProtectedRoute>
                 }
               />
@@ -77,22 +100,55 @@ function AppRoutes() {
                 path="/cart"
                 element={
                   <ProtectedRoute role="user">
-                    <ShopingCartPage />
+                    <ErrorBoundary fallback={<div>Cart Page Fatta!</div>}>
+                      <ShopingCartPage />
+                    </ErrorBoundary>
                   </ProtectedRoute>
                 }
               />
-              <Route path="/product-detail" element={<ProductDetailPage />} />
-              <Route path="/filter" element={<FilterPage />} />
+              <Route
+                path="/product-detail"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Product Detail Page Fatta!</div>}
+                  >
+                    <ProductDetailPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/filter"
+                element={
+                  <ErrorBoundary fallback={<div>Filter Page Fatta!</div>}>
+                    <FilterPage />
+                  </ErrorBoundary>
+                }
+              />
             </Route>
 
             {/* second layout for short navbar */}
             <Route element={<SecondOutlet />}>
               <Route
-                path="/admin"
+                path="/adminDashboard"
                 element={
                   <ProtectedRoute role="admin">
-                    <AdminDashBoard />
+                    <ErrorBoundary
+                      fallback={<div>Admin Dashboard Page Fatta!</div>}
+                    >
+                      <AdminDashBoard />
+                    </ErrorBoundary>
                   </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/adminProductPage"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Admin Product Page Fatta!</div>}
+                  >
+                    <AdminProductPage />
+                  </ErrorBoundary>
                 }
               />
             </Route>

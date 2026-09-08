@@ -32,7 +32,7 @@ export default function RoleRedirect() {
   const role = getRoleFromToken();
 
   if (role === "admin") {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/adminDashboard" replace />;
   }
 
   return <Navigate to="/shop" replace />;

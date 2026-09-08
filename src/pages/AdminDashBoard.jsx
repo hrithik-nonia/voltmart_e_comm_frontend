@@ -2,7 +2,7 @@
 
 // custom imports
 import MissionControlHeader from "../components/adminDashboardComponents/MissionControlHeader";
-import MissionControlKPICards from "../components/adminDashboardComponents/MissionControlKPICards";
+import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import RecentOrdersTable from "../components/adminDashboardComponents/RecentOrdersTable";
 import TopPerformingSKUs from "../components/adminDashboardComponents/TopPerformingSKUs";
