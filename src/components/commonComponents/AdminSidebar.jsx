@@ -1,21 +1,11 @@
 // built in imports
-import { useState } from "react";
 import { Zap } from "lucide-react";
 
 // component imports
 import { MenuItems } from "../../constants/constant";
+import { NavLink } from "react-router-dom";
 
-export default function AdminSidebar({
-  initialActiveId = "dashboard",
-  onItemSelect,
-}) {
-  const [activeId, setActiveId] = useState(initialActiveId);
-
-  const handleSelect = (id) => {
-    setActiveId(id);
-    if (onItemSelect) onItemSelect(id);
-  };
-
+export default function AdminSidebar() {
   return (
     <aside className="w-64 min-h-screen bg-[#0B101D] text-white border-r border-slate-800/80 p-4 flex flex-col justify-between shrink-0 select-none">
       <div className="space-y-6">
@@ -40,31 +30,24 @@ export default function AdminSidebar({
         <nav className="space-y-1.5">
           {MenuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeId === item.id;
 
             return (
-              <button
+              <NavLink
                 key={item.id}
-                type="button"
-                onClick={() => handleSelect(item.id)}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/25"
-                    : "text-slate-300 hover:text-white hover:bg-slate-800/50"
-                }`}
+                to={item.link}
+                className={({ isActive }) =>
+                  `w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer ${
+                    isActive
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/25"
+                      : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                  }`
+                }
               >
                 <div className="flex items-center gap-3">
                   <Icon className="h-4.5 w-4.5 stroke-[2.2]" />
                   <span>{item.label}</span>
                 </div>
-
-                {/* Badge Counter */}
-                {item.badge && (
-                  <span className="rounded-full bg-orange-600 px-2 py-0.5 text-xs font-bold text-white shadow-xs">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
+              </NavLink>
             );
           })}
         </nav>

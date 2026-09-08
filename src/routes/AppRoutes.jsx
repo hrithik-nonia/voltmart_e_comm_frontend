@@ -11,6 +11,11 @@ const ProductDetailPage = lazy(() => import("../pages/ProductDetailPage"));
 const SecureCheckOutPage = lazy(() => import("../pages/SecureCheckOutPage"));
 const ShopingCartPage = lazy(() => import("../pages/ShopingCartPage"));
 const AdminProductPage = lazy(() => import("../pages/AdminProductPage"));
+const AdminOrderPage = lazy(() => import("../pages/AdminOrderPage"));
+const AdminCategoriePage = lazy(() => import("../pages/AdminCategoriePage"));
+const AdminCustomersPage = lazy(() => import("../pages/AdminCustomerPage"));
+const AdminAnalyticsPage = lazy(() => import("../pages/AdminAnalyticsPage"));
+const AdminSettingPage = lazy(() => import("../pages/AdminSettingPage"));
 
 import VoltmartPreloader from "../components/commonComponents/VoltmartPreloader";
 import Navbar from "../components/commonComponents/NavBar";
@@ -148,6 +153,55 @@ function AppRoutes() {
                     fallback={<div>Admin Product Page Fatta!</div>}
                   >
                     <AdminProductPage />
+                  </ErrorBoundary>
+                }
+              />
+
+              <Route
+                path="/adminOrderPage"
+                element={
+                  <ErrorBoundary fallback={<div>Admin Order Page Fatta!</div>}>
+                    <AdminOrderPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/adminCategoriePage"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Admin Categorie Page Fatta!</div>}
+                  >
+                    <AdminCategoriePage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/adminCustomersPage"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Admin Customers Page Fatta!</div>}
+                  >
+                    <AdminCustomersPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/adminAnalyticsPage"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Admin Analytics Page Fatta!</div>}
+                  >
+                    <AdminAnalyticsPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/adminSettingPage"
+                element={
+                  <ErrorBoundary
+                    fallback={<div>Admin Setting Page Fatta!</div>}
+                  >
+                    <AdminSettingPage />
                   </ErrorBoundary>
                 }
               />

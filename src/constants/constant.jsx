@@ -135,11 +135,46 @@ export const Perks = [
 ];
 
 export const MenuItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "products", label: "Products", icon: Package },
-  { id: "orders", label: "Orders", icon: FileText, badge: 18 },
-  { id: "categories", label: "Categories", icon: Grid },
-  { id: "customers", label: "Customers", icon: Users },
-  { id: "analytics", label: "Analytics", icon: LineChart },
-  { id: "settings", label: "System Settings", icon: Settings },
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    link: "/adminDashboard",
+  },
+  {
+    id: "products",
+    label: "Products",
+    icon: Package,
+    link: "/adminProductPage",
+  },
+  {
+    id: "orders",
+    label: "Orders",
+    icon: FileText,
+    link: "/adminOrderPage",
+  },
+  {
+    id: "categories",
+    label: "Categories",
+    icon: Grid,
+    link: "/adminCategoriePage",
+  },
+  {
+    id: "customers",
+    label: "Customers",
+    icon: Users,
+    link: "/adminCustomersPage",
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    icon: LineChart,
+    link: "/adminAnalyticsPage",
+  },
+  {
+    id: "settings",
+    label: "System Settings",
+    icon: Settings,
+    link: "/adminSettingPage",
+  },
 ];
