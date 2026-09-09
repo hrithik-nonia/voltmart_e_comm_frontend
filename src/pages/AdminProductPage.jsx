@@ -7,11 +7,11 @@ import {
 } from "lucide-react";
 
 // custom imports
-import ProductsHeader from "../components/adminProductPageComp/ProductsHeader";
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import InventoryFilterBar from "../components/commonComponents/InventoryFilterBar";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import StandaloneHardwareTable from "../components/adminProductPageComp/StandaloneHardwareTable";
+import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
 
 function AdminProductPage({
   totalSkus = "1,428",
@@ -57,7 +57,12 @@ function AdminProductPage({
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
         <ErrorBoundary fallback={<div>Header Component Fatta!</div>}>
-          <ProductsHeader />
+          <AdminHeaderComp
+            heading="Products"
+            text="Manage high-velocity hardware SKUs, quantum inventory, and regional
+            catalog telemetry."
+            btnText="Add Product"
+          />
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Status Card Component Fatta!</div>}>

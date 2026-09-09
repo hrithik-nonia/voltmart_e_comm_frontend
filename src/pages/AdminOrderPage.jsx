@@ -2,11 +2,11 @@
 import { ShoppingCart, Workflow, Waypoints, Truck } from "lucide-react";
 
 // custom imports
-import OrdersHeader from "../components/adminOrdersPageComp/OrdersHeader";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import InventoryFilterBar from "../components/commonComponents/InventoryFilterBar";
 import OrderDashboard from "../components/adminOrdersPageComp/OrderDashboard";
+import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
 
 const kpiData = [
   {
@@ -44,7 +44,11 @@ function AdminOrderPage() {
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
         <ErrorBoundary fallback={<div>Header Component Fatta!</div>}>
-          <OrdersHeader />
+          <AdminHeaderComp
+            heading="Orders"
+            text="Monitor and manage customer orders, routing telemetry, and regional
+            fulfillment velocity across global distribution clusters."
+          />
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Status Card Component Fatta!</div>}>

@@ -1,19 +1,23 @@
 // built in imports
 
 // custom imports
-import MissionControlHeader from "../components/adminDashboardComponents/MissionControlHeader";
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import RecentOrdersTable from "../components/adminDashboardComponents/RecentOrdersTable";
 import TopPerformingSKUs from "../components/adminDashboardComponents/TopPerformingSKUs";
 import VoltMartEdgeGrid from "../components/adminDashboardComponents/VoltMartEdgeGrid";
+import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
 
 function AdminDashBoard() {
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
         <ErrorBoundary fallback={<div>Header Component Fatta!</div>}>
-          <MissionControlHeader />
+          <AdminHeaderComp
+            heading="Mission Control & Velocity"
+            text="Real-time sales velocity, hardware fulfillment pipelines, and
+            quantum telemetry node acquisition metrics."
+          />
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Status Card Component Fatta!</div>}>
