@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   MinusCircle,
 } from "lucide-react";
+import { useState } from "react";
 
 // custom imports
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
@@ -12,6 +13,7 @@ import InventoryFilterBar from "../components/commonComponents/InventoryFilterBa
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import StandaloneHardwareTable from "../components/adminProductPageComp/StandaloneHardwareTable";
 import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
+import AdminAddProductForm from "../components/adminProductPageComp/AdminAddProductForm";
 
 function AdminProductPage({
   totalSkus = "1,428",
@@ -53,6 +55,8 @@ function AdminProductPage({
       iconStyle: "bg-[#1F1318] border-rose-900/50 text-rose-400",
     },
   ];
+
+  const [showAddProductForm, setShowAddProductForm] = useState(false);
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
@@ -62,6 +66,7 @@ function AdminProductPage({
             text="Manage high-velocity hardware SKUs, quantum inventory, and regional
             catalog telemetry."
             btnText="Add Product"
+            onclick={() => setShowAddProductForm(true)}
           />
         </ErrorBoundary>
 
@@ -77,6 +82,12 @@ function AdminProductPage({
           <StandaloneHardwareTable />
         </ErrorBoundary>
       </section>
+
+      {showAddProductForm && (
+        <ErrorBoundary fallback={<div>Add Product Component Fatta!</div>}>
+          <AdminAddProductForm onClose={() => setShowAddProductForm(false)} />
+        </ErrorBoundary>
+      )}
     </>
   );
 }

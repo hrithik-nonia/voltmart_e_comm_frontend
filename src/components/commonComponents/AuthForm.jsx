@@ -44,7 +44,7 @@ export default function AuthForm({ onClose }) {
       const payload = JSON.parse(atob(token.split(".")[1]));
 
       if (payload.role === "admin") {
-        navigate("/admin");
+        navigate("/adminDashBoard");
       } else if (payload.role === "user") {
         navigate("/");
       }
