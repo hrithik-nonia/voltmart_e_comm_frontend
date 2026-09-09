@@ -102,13 +102,15 @@ export function AdminHeaderComp({
               </>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/25 transition-all active:scale-[0.99] cursor-pointer"
-                >
-                  <Plus className="h-4 w-4 stroke-[3]" />
-                  <span>{btnText}</span>
-                </button>
+                {location.pathname === "/adminCustomersPage" ? null : (
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/25 transition-all active:scale-[0.99] cursor-pointer"
+                  >
+                    <Plus className="h-4 w-4 stroke-[3]" />
+                    <span>{btnText}</span>
+                  </button>
+                )}
               </>
             )}
           </div>
