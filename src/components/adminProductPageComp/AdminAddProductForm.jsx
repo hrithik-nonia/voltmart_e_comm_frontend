@@ -1,7 +1,157 @@
 // built in imports
-import { Box, UploadCloud, ChevronDown, Check } from "lucide-react";
+import { Box, UploadCloud, ChevronDown, Check, X } from "lucide-react";
+import { useState } from "react";
+import { useMutation } from "@apollo/client/react";
+
+import { uploadImage } from "../../api/postApis";
+import { CREATE_PRODUCT } from "../../graphql/mutations/product";
+import { useMessage } from "../../context/MessageContext";
 
 function AdminAddProductForm({ onClose }) {
+  const [isActive, setIsActive] = useState(true);
+  const [isFeatured, setIsFeatured] = useState(false);
+  const { showError, showSuccess } = useMessage();
+
+  const [createProduct] = useMutation(CREATE_PRODUCT);
+
+  // category options
+  const categoryOptions = [
+    {
+      id: "cat-7f3a21",
+      categoryLevel: "Displays & Monitors",
+    },
+    {
+      id: "cat-9b42c8",
+      categoryLevel: "Neural Compute",
+    },
+    {
+      id: "cat-3d81f6",
+      categoryLevel: "Peripherals",
+    },
+    {
+      id: "cat-5a27e9",
+      categoryLevel: "Acoustics",
+    },
+    {
+      id: "cat-8c14b3",
+      categoryLevel: "Terminals",
+    },
+    {
+      id: "cat-2e69d5",
+      categoryLevel: "Power & Thermal",
+    },
+    {
+      id: "cat-6b53a7",
+      categoryLevel: "Robotics & Automation",
+    },
+  ];
+
+  const initialForm = {
+    productName: "",
+    description: "",
+    price: "",
+    salePrice: "",
+    stock: "",
+    category: "",
+    specs: {
+      brand: "",
+      color: "",
+      warranty: "",
+    },
+  };
+
+  const [formData, setFormData] = useState(initialForm);
+  const [image, setImage] = useState(null);
+  const [showImgPrevComp, setShowImgPrevComp] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setImage(file);
+      setShowImgPrevComp(true);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (["color", "warranty", "brand"].includes(name)) {
+      setFormData((prev) => ({
+        ...prev,
+        specs: {
+          ...prev.specs,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!image) {
+      alert("Please select an image");
+      return;
+    }
+
+    if (
+      !formData.productName ||
+      !formData.price ||
+      !formData.stock ||
+      !formData.category
+    ) {
+      alert("Some Required Field Is Empty");
+      return;
+    }
+
+    try {
+      // 1st call — image upload
+      const uploadRes = await uploadImage(image);
+      const imageURL = uploadRes.data.image_url; // ✅ image state (file object)
+
+      // 2nd call — product create (sirf 1st success hone pe)
+      const productCreated = await createProduct({
+        variables: {
+          input: {
+            productName: formData.productName,
+            description: formData.description,
+            price: parseFloat(formData.price),
+            salePrice: formData.salePrice
+              ? parseFloat(formData.salePrice)
+              : null,
+            stock: parseInt(formData.stock),
+            category: formData.category,
+            specs: {
+              brand: formData.specs.brand,
+              color: formData.specs.color,
+              warranty: formData.specs.warranty,
+            },
+            image: imageURL,
+            isActive: isActive,
+            isFeatured: isFeatured,
+          },
+        },
+      });
+
+      showSuccess(
+        productCreated?.data?.createProduct?.productName +
+          " created successfully!",
+      );
+      setFormData(initialForm);
+      setImage(null);
+      setIsFeatured(false);
+      setIsActive(true);
+      onClose();
+    } catch (err) {
+      showError(err?.message || "Something went wrong");
+    }
+  };
   return (
     <>
       <section className="absolute inset-5 text-white">
@@ -39,7 +189,11 @@ function AdminAddProductForm({ onClose }) {
 
               <input
                 type="text"
-                defaultValue="VoltVision 49' Curved QD-OLED Studio Rig"
+                name="productName"
+                value={formData.productName}
+                onChange={handleChange}
+                required
+                minLength={1}
                 placeholder="Enter product name"
                 className="
             h-[51px]
@@ -69,7 +223,9 @@ function AdminAddProductForm({ onClose }) {
 
               <textarea
                 rows={3}
-                defaultValue="Next-generation quantum-dot OLED curved panoramic gaming and workstation display with 240Hz refresh rate and dual Thunderbolt 4 ports."
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
                 placeholder="Enter product description"
                 className="
             min-h-[100px]
@@ -119,8 +275,13 @@ function AdminAddProductForm({ onClose }) {
                   </div>
 
                   <input
-                    type="text"
-                    defaultValue="1,499.00"
+                    type="number"
+                    min="1"
+                    name="price"
+                    placeholder="Price"
+                    onChange={handleChange}
+                    value={formData.price}
+                    required
                     className="
                 min-w-0
                 flex-1
@@ -158,8 +319,12 @@ function AdminAddProductForm({ onClose }) {
                   </div>
 
                   <input
-                    type="text"
-                    defaultValue="1,299.00"
+                    type="number"
+                    min="1"
+                    name="salePrice"
+                    placeholder="Sale Price"
+                    onChange={handleChange}
+                    value={formData.salePrice}
                     className="
                 min-w-0
                 flex-1
@@ -198,7 +363,12 @@ function AdminAddProductForm({ onClose }) {
 
                   <input
                     type="number"
-                    defaultValue="42"
+                    min="1"
+                    name="stock"
+                    placeholder="Stock"
+                    onChange={handleChange}
+                    value={formData.stock}
+                    required
                     className="
                 min-w-0
                 flex-1
@@ -237,6 +407,7 @@ function AdminAddProductForm({ onClose }) {
                   id="product-image"
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
+                  onChange={handleImageChange}
                   className="hidden"
                 />
 
@@ -270,7 +441,10 @@ function AdminAddProductForm({ onClose }) {
 
               <div className="relative">
                 <select
-                  defaultValue="Displays & Monitors"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
                   className="
               h-[36px]
               w-full
@@ -290,13 +464,12 @@ function AdminAddProductForm({ onClose }) {
               focus:ring-blue-500/30
             "
                 >
-                  <option>Displays & Monitors</option>
-                  <option>Neural Compute</option>
-                  <option>Peripherals</option>
-                  <option>Acoustics</option>
-                  <option>Terminals</option>
-                  <option>Power & Thermal</option>
-                  <option>Robotics & Automation</option>
+                  <option value="">Select Category</option>
+                  {categoryOptions.map(({ id, categoryLevel }) => (
+                    <option key={id} value={id}>
+                      {categoryLevel}
+                    </option>
+                  ))}
                 </select>
 
                 <ChevronDown
@@ -321,7 +494,10 @@ function AdminAddProductForm({ onClose }) {
 
                 <input
                   type="text"
-                  defaultValue="VoltVision"
+                  name="brand"
+                  placeholder="Brand"
+                  value={formData.specs.brand}
+                  onChange={handleChange}
                   className="
               h-[33px]
               w-full
@@ -349,7 +525,10 @@ function AdminAddProductForm({ onClose }) {
 
                 <input
                   type="text"
-                  defaultValue="Matte Space Slate"
+                  placeholder="Color"
+                  value={formData.specs.color}
+                  name="color"
+                  onChange={handleChange}
                   className="
               h-[33px]
               w-full
@@ -377,7 +556,10 @@ function AdminAddProductForm({ onClose }) {
 
                 <input
                   type="text"
-                  defaultValue="3 Years Enterprise Shield"
+                  placeholder="Warranty"
+                  name="warranty"
+                  value={formData.specs.warranty}
+                  onChange={handleChange}
                   className="
               h-[33px]
               w-full
@@ -418,16 +600,17 @@ function AdminAddProductForm({ onClose }) {
                     </span>
 
                     <span
-                      className="
+                      className={`
                   rounded-sm
                   bg-emerald-500/20
                   px-1.5 py-[2px]
                   text-[8px]
                   font-bold
-                  text-emerald-400
-                "
+                  ${isActive ? "text-emerald-400" : "text-red-600"}
+                 
+                `}
                     >
-                      LIVE
+                      {isActive ? "Live" : "Not Live"}
                     </span>
                   </div>
 
@@ -439,21 +622,15 @@ function AdminAddProductForm({ onClose }) {
                 {/* Toggle */}
                 <button
                   type="button"
-                  className="
-              relative h-[21px] w-[38px]
+                  onClick={() => setIsActive((prev) => !prev)}
+                  className={`
+              relative px-4 py-1
               rounded-full
-              bg-emerald-500
-            "
+               ${isActive ? "bg-emerald-400" : "bg-red-600"}
+              text-[12px]
+            `}
                 >
-                  <span
-                    className="
-                absolute right-[3px] top-[3px]
-                h-[15px] w-[15px]
-                rounded-full
-                bg-white
-                shadow-sm
-              "
-                  />
+                  {isActive ? "Active" : "Inactive"}
                 </button>
               </div>
 
@@ -475,16 +652,14 @@ function AdminAddProductForm({ onClose }) {
                     </span>
 
                     <span
-                      className="
-                  rounded-sm
+                      className={`rounded-sm
                   bg-blue-500/20
                   px-1.5 py-[2px]
                   text-[8px]
-                  font-bold
-                  text-blue-400
-                "
+                  font-bold ${isFeatured ? "text-blue-400" : "text-gray-200"}
+                  `}
                     >
-                      SPOTLIGHT
+                      {isFeatured ? "Spotlight" : "Regular"}
                     </span>
                   </div>
 
@@ -496,21 +671,12 @@ function AdminAddProductForm({ onClose }) {
                 {/* Toggle */}
                 <button
                   type="button"
-                  className="
-              relative h-[21px] w-[38px]
-              rounded-full
-              bg-blue-600
-            "
+                  onClick={() => setIsFeatured((prev) => !prev)}
+                  className={`relative 
+              rounded-full text-[12px] px-4 py-1 ${isFeatured ? "bg-emerald-400" : "bg-blue-600"}
+              `}
                 >
-                  <span
-                    className="
-                absolute right-[3px] top-[3px]
-                h-[15px] w-[15px]
-                rounded-full
-                bg-white
-                shadow-sm
-              "
-                  />
+                  {isFeatured ? "Featured" : "Regular"}
                 </button>
               </div>
             </div>
@@ -540,7 +706,8 @@ function AdminAddProductForm({ onClose }) {
 
               {/* Save Product */}
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 className="
             flex h-[37px]
             items-center justify-center
@@ -564,6 +731,62 @@ function AdminAddProductForm({ onClose }) {
           </div>
         </div>
       </section>
+
+      {showImgPrevComp && (
+        <>
+          <div className="absolute inset-0 bg-black/30 flex justify-center items-center ">
+            <div className="bg-gray-700 w-full md:w-md  p-5 rounded-xl border border-gray-700/60">
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Product preview"
+                className="rounded-xl object-cover aspect-square"
+              />
+
+              {/* buttons */}
+              <div className="flex items-center gap-2 mt-2 justify-end">
+                {/* Accept */}
+                <button
+                  type="button"
+                  className="
+                  flex items-center gap-1.5
+                  rounded-lg
+                  bg-emerald-500
+                  px-3 py-1.5
+                  text-xs font-semibold
+                  text-white
+                  transition
+                  hover:bg-emerald-600
+                "
+                  onClick={() => setShowImgPrevComp(false)}
+                >
+                  <Check size={14} strokeWidth={2.5} />
+                  Accept
+                </button>
+
+                {/* Reject */}
+                <button
+                  type="button"
+                  className="
+                  flex items-center gap-1.5
+                  rounded-lg
+                  border border-red-500/30
+                  bg-red-500/10
+                  px-3 py-1.5
+                  text-xs font-semibold
+                  text-red-400
+                  transition
+                  hover:bg-red-500/20
+                "
+                  onClick={() => setImage(null)}
+                >
+                  <X size={14} strokeWidth={2.5} />
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
