@@ -60,7 +60,7 @@ export default function NotificationsDropdown({
   };
 
   return (
-    <div className="w-full max-w-sm sm:max-w-md bg-[#091122] text-white rounded-2xl border border-slate-800/90 shadow-2xl shadow-black/80 font-sans overflow-hidden absolute md:right-2">
+    <div className="w-full max-w-sm sm:max-w-md bg-[#091122] text-white rounded-2xl border border-slate-800/90 shadow-2xl shadow-black/80 font-sans overflow-hidden absolute md:right-2 z-40">
       {/* Top Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/80">
         <div className="flex items-center gap-2.5">

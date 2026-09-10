@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, ChevronDown, Columns, Check } from "lucide-react";
+import { Search, ChevronDown, Check } from "lucide-react";
 
 const categoryOptions = [
   "All Hardware Categories",
@@ -11,33 +11,12 @@ const categoryOptions = [
   "Capture Gear",
 ];
 
-const inventoryLevelOptions = [
-  "All Inventory Levels",
-  "In Stock (Healthy)",
-  "Low Stock Warning",
-  "Depleted / Out of Stock",
-];
-
-const fulfillmentOptions = [
-  "Fulfillment: Global Mesh",
-  "US-East Relay Node",
-  "EU-Central Relay Node",
-  "AP-South (BLR/BOM) Node",
-];
-
 export default function InventoryFilterBar({
   onSearch = () => {},
   onCategorySelect = () => {},
-  onInventorySelect = () => {},
-  onFulfillmentSelect = () => {},
-  onCustomizeColumns = () => {},
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(categoryOptions[0]);
-  const [selectedLevel, setSelectedLevel] = useState(inventoryLevelOptions[0]);
-  const [selectedFulfillment, setSelectedFulfillment] = useState(
-    fulfillmentOptions[0],
-  );
 
   const [activeDropdown, setActiveDropdown] = useState(null); // 'cat' | 'level' | 'fulfillment' | null
   const inputRef = useRef(null);
@@ -116,90 +95,6 @@ export default function InventoryFilterBar({
               </div>
             )}
           </div>
-
-          {/* Inventory Level Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() =>
-                setActiveDropdown(activeDropdown === "level" ? null : "level")
-              }
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#050A14] hover:bg-slate-800/60 border border-slate-800 text-xs sm:text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
-            >
-              <span>{selectedLevel}</span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-            </button>
-
-            {activeDropdown === "level" && (
-              <div className="absolute left-0 lg:right-0 lg:left-auto mt-2 w-56 bg-[#050A14] border border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 text-left">
-                {inventoryLevelOptions.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      setSelectedLevel(opt);
-                      setActiveDropdown(null);
-                      onInventorySelect(opt);
-                    }}
-                    className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800/60 transition-colors"
-                  >
-                    <span>{opt}</span>
-                    {selectedLevel === opt && (
-                      <Check className="h-3.5 w-3.5 text-cyan-400" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Fulfillment Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() =>
-                setActiveDropdown(
-                  activeDropdown === "fulfillment" ? null : "fulfillment",
-                )
-              }
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#050A14] hover:bg-slate-800/60 border border-slate-800 text-xs sm:text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
-            >
-              <span>{selectedFulfillment}</span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-            </button>
-
-            {activeDropdown === "fulfillment" && (
-              <div className="absolute left-0 lg:right-0 lg:left-auto mt-2 w-56 bg-[#050A14] border border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 text-left">
-                {fulfillmentOptions.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      setSelectedFulfillment(opt);
-                      setActiveDropdown(null);
-                      onFulfillmentSelect(opt);
-                    }}
-                    className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800/60 transition-colors"
-                  >
-                    <span>{opt}</span>
-                    {selectedFulfillment === opt && (
-                      <Check className="h-3.5 w-3.5 text-cyan-400" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Column Customize Icon Button */}
-          <button
-            type="button"
-            onClick={onCustomizeColumns}
-            className="p-2.5 rounded-xl bg-[#050A14] hover:bg-slate-800/60 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-            aria-label="Customize Columns"
-          >
-            <Columns className="h-4 w-4" />
-          </button>
         </div>
       </div>
     </div>
