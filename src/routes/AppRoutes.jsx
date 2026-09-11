@@ -104,11 +104,11 @@ function AppRoutes() {
               <Route
                 path="/cart"
                 element={
-                  <ProtectedRoute role="user">
-                    <ErrorBoundary fallback={<div>Cart Page Fatta!</div>}>
-                      <ShopingCartPage />
-                    </ErrorBoundary>
-                  </ProtectedRoute>
+                  // <ProtectedRoute role="user">
+                  <ErrorBoundary fallback={<div>Cart Page Fatta!</div>}>
+                    <ShopingCartPage />
+                  </ErrorBoundary>
+                  // </ProtectedRoute>
                 }
               />
               <Route

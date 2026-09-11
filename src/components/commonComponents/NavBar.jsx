@@ -1,6 +1,7 @@
 // built in imports
 import { useState } from "react";
 import { Zap, Search, Heart, ShoppingCart, Menu, X, LogIn } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // component imports
 import AuthForm from "./AuthForm";
@@ -23,6 +24,9 @@ export default function Navbar({
   const isLogin = false;
 
   const [showAuthForm, setShowAuthForm] = useState(false);
+
+  // for navigation
+  const navigate = useNavigate();
 
   return (
     <>
@@ -90,7 +94,8 @@ export default function Navbar({
               {/* Shopping Cart Icon with Badge */}
               <button
                 type="button"
-                className="relative p-2 text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50"
+                onClick={() => navigate("/cart")}
+                className="relative p-2 text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50 cursor-pointer"
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart className="h-5 w-5 stroke-[2]" />
