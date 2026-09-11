@@ -48,6 +48,10 @@ function FilterPage({ onAddToCart }) {
               );
             })}
           </div>
+
+          <div>
+            <button className="border py-2 px-5">load more</button>
+          </div>
         </div>
       </section>
     </>
