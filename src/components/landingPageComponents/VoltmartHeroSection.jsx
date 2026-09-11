@@ -1,7 +1,7 @@
-import { Zap, Flame } from "lucide-react";
+import { Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function VoltmartHeroSection({ onViewDeals }) {
+export default function VoltmartHeroSection() {
   const navigate = useNavigate();
   return (
     <section className="relative w-full bg-[#0B1323] text-white py-16 sm:py-20 lg:py-24 px-6 sm:px-12 lg:px-16 overflow-hidden">
@@ -15,7 +15,7 @@ export default function VoltmartHeroSection({ onViewDeals }) {
           {/* Top Pill Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-900/60 bg-[#0D243A] px-3.5 py-1.5 text-[10px] sm:text-xs font-extrabold tracking-widest text-cyan-400 uppercase shadow-xs">
             <Zap className="h-3.5 w-3.5 fill-cyan-400/20 stroke-[2.5]" />
-            <span>HYPER-SPEED HARDWARE DISPATCH</span>
+            <span>POWERED BY NEXT-GEN TECHNOLOGY</span>
           </div>
 
           {/* Headline */}
@@ -41,16 +41,6 @@ export default function VoltmartHeroSection({ onViewDeals }) {
             >
               <span>Shop Now</span>
               <Zap className="h-4 w-4 fill-white stroke-[2.5]" />
-            </button>
-
-            {/* View Deals Button */}
-            <button
-              type="button"
-              onClick={onViewDeals}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-[#131C2E] px-6 py-3.5 text-sm font-bold text-slate-200 hover:border-slate-700 hover:text-white active:scale-[0.98] transition-all focus:outline-none focus:ring-2 focus:ring-slate-700/40"
-            >
-              <span>View Deals</span>
-              <Flame className="h-4 w-4 text-amber-500 fill-amber-500/20 stroke-[2.2]" />
             </button>
           </div>
         </div>

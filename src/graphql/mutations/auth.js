@@ -15,3 +15,17 @@ export const LOGIN = gql`
     }
   }
 `;
+
+
+
+export const SIGN_UP = gql`
+  mutation SignUp($name: String!, $email: String!, $password: String!, $imageUrl: String!) {
+    signUp(name: $name, email: $email, password: $password, imageUrl: $imageUrl) 
+  }
+`;
+
+export const OTP_VERIFY = gql`
+  mutation OtpVerify($email: String!, $otp: String!) {
+    otpVerify(email: $email, otp: $otp)
+  }
+`;

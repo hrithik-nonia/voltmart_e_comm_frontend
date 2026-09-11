@@ -11,7 +11,7 @@ import {
 
 const OrderSummary = () => {
   return (
-    <aside className="w-full max-w-[290px] overflow-hidden rounded-md border-t-2 border-orange-500 bg-[#18233d] p-4 text-white">
+    <aside className=" overflow-hidden rounded-md border-t-2 border-orange-500 bg-[#18233d] p-4 text-white">
       {/* Header */}
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-lg font-bold text-gray-200">Order Summary</h2>
