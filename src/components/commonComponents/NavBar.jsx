@@ -78,19 +78,6 @@ export default function Navbar({
                 </kbd>
               </button>
 
-              {/* Express Status Badge */}
-              <div className="hidden xl:flex items-center gap-2.5 rounded-xl border border-blue-900/50 bg-[#0E1B2E] px-3.5 py-1.5 shrink-0">
-                <Zap className="h-4 w-4 text-cyan-400 fill-cyan-400/20 stroke-[2.5]" />
-                <div className="text-left">
-                  <p className="text-[9px] font-extrabold tracking-widest text-slate-400 uppercase leading-tight">
-                    EXPRESS STATUS
-                  </p>
-                  <p className="text-xs font-bold text-cyan-400 leading-tight">
-                    Next-Hour Active
-                  </p>
-                </div>
-              </div>
-
               {/* Wishlist Heart Icon */}
               <button
                 type="button"
