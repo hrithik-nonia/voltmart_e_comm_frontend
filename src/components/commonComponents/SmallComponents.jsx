@@ -2,19 +2,15 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Calendar, ChevronDown, Download, Plus } from "lucide-react";
 
-export function HeadingComp({ text }) {
+export function HeadingComp({ textColor, text }) {
   return (
     <>
       <div>
         <div
-          className={`flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest ${text ? text : "text-white"} uppercase mb-1`}
-        >
-          <span>NODE ARCHITECTURES</span>
-          <span>•</span>
-          <span className="text-white font-light">6 Hubs Active</span>
-        </div>
+          className={`flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest ${textColor ? textColor : "text-white"} uppercase mb-1`}
+        ></div>
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-          Shop by Category
+          {text}
         </h2>
       </div>
     </>
