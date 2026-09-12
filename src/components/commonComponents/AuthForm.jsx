@@ -14,6 +14,7 @@ export default function AuthForm({ onClose }) {
   const [rememberMe, setRememberMe] = useState(false);
 
   const { showError, showSuccess } = useMessage();
+
   const navigate = useNavigate();
 
   const initialFormData = {
