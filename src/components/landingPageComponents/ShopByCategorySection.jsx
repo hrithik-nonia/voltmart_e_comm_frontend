@@ -1,12 +1,16 @@
 // built in imports
 import * as Icons from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // component imports
 import { HeadingComp } from "../commonComponents/SmallComponents";
-
+import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
 export default function ShopByCategorySection({ categories, error, loading }) {
+  const { selectCategory } = useFetchAppDataContext();
+  const navigate = useNavigate();
+
+  // =====================
   if (error) {
-    console.error(error);
     return (
       <>
         <div className="h-60 bg-[#131E33] flex justify-center items-center text-lg font-bold">
@@ -24,6 +28,12 @@ export default function ShopByCategorySection({ categories, error, loading }) {
         </div>
       </>
     );
+  // =====================
+
+  const handleCardClick = (id) => {
+    selectCategory(id);
+    navigate("/filter");
+  };
   return (
     <section>
       <div className="space-y-8">
@@ -40,6 +50,7 @@ export default function ShopByCategorySection({ categories, error, loading }) {
             return (
               <div
                 key={idx}
+                onClick={() => handleCardClick(cat.id)}
                 className="group flex flex-col justify-between rounded-2xl border border-slate-800/90 bg-[#0F1829] p-5 shadow-sm hover:border-slate-700 hover:bg-[#131E33] hover:-translate-y-1 transition-all duration-200 cursor-pointer"
               >
                 {/* Icon Badge */}

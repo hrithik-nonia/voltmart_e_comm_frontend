@@ -6,13 +6,16 @@ import "./index.css";
 import App from "./App.jsx";
 import { MessageProvider } from "./context/MessageContext.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
+import { AppDataProvider } from "./context/FetchAppDataContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <MessageProvider>
       <ApolloProvider client={client}>
         <AppProvider>
-          <App />
+          <AppDataProvider>
+            <App />
+          </AppDataProvider>
         </AppProvider>
       </ApolloProvider>
     </MessageProvider>

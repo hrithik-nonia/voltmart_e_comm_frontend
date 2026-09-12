@@ -1,10 +1,4 @@
 import {
-  Smartphone,
-  Laptop,
-  Headphones,
-  Camera,
-  Gamepad2,
-  Keyboard,
   Truck,
   Headset,
   ShieldCheck,
@@ -16,45 +10,6 @@ import {
   LineChart,
   Settings,
 } from "lucide-react";
-
-export const Categories = [
-  {
-    title: "Phones",
-    description: "Flagship & Foldables",
-    icon: Smartphone,
-    badgeStyle: "bg-blue-950/80 border-blue-800/60 text-blue-400",
-  },
-  {
-    title: "Laptops",
-    description: "Creator & Esports",
-    icon: Laptop,
-    badgeStyle: "bg-cyan-950/80 border-cyan-800/60 text-cyan-400",
-  },
-  {
-    title: "Audio",
-    description: "Spatial & Planar",
-    icon: Headphones,
-    badgeStyle: "bg-indigo-950/80 border-indigo-800/60 text-indigo-400",
-  },
-  {
-    title: "Cameras",
-    description: "8K Cinema & Logs",
-    icon: Camera,
-    badgeStyle: "bg-amber-950/80 border-amber-800/60 text-amber-500",
-  },
-  {
-    title: "Gaming",
-    description: "Consoles & Decks",
-    icon: Gamepad2,
-    badgeStyle: "bg-rose-950/80 border-rose-800/60 text-rose-500",
-  },
-  {
-    title: "Accessories",
-    description: "Keyboards & Docks",
-    icon: Keyboard,
-    badgeStyle: "bg-sky-950/80 border-sky-800/60 text-sky-400",
-  },
-];
 
 export const MockProducts = [
   {
