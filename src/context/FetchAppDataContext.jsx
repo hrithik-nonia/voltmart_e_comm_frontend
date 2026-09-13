@@ -5,6 +5,7 @@ import { GET_PRODUCTS } from "../graphql/query/getProduct";
 const FetchAppDataContext = createContext();
 
 export const AppDataProvider = ({ children }) => {
+  // ===========================================
   const [page, setPage] = useState(1);
   const [categoryId, setCategoryId] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
@@ -47,6 +48,7 @@ export const AppDataProvider = ({ children }) => {
     setCategoryId(id || null);
     setPage(1);
   };
+  // ===============================
 
   return (
     <FetchAppDataContext.Provider

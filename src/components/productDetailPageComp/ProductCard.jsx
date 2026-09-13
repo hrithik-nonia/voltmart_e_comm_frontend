@@ -1,49 +1,44 @@
-import { Heart, Cpu, Gauge, Fan } from "lucide-react";
+import { BadgeCheck, Palette, ShieldCheck } from "lucide-react";
 
-const specs = [
-  {
-    icon: Cpu,
-    title: "ARCHITECTURE",
-    value: "Intel i9-14900HX",
-  },
-  {
-    icon: Gauge,
-    title: "CLOCK BOOST",
-    value: "5.8 GHz Neural",
-  },
-  {
-    icon: Fan,
-    title: "THERMAL LOAD",
-    value: "175W Liquid Metal",
-  },
-];
+const ProductCard = ({ image, specs, loading, error }) => {
+  const specsData = [
+    {
+      icon: BadgeCheck,
+      title: specs?.brand,
+    },
+    {
+      icon: Palette,
+      title: specs?.color,
+    },
+    {
+      icon: ShieldCheck,
+      title: specs?.warranty,
+    },
+  ];
 
-const ProductCard = () => {
+  if (loading)
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    );
+
+  if (error)
+    return (
+      <>
+        <p>{error?.message}</p>
+      </>
+    );
   return (
     <>
       <div className="rounded-xl bg-[#111a2e] p-3">
         {/* Card */}
         <div className="relative overflow-hidden rounded-lg bg-[#171b1f]">
-          {/* Wishlist */}
-          <button
-            className="
-            absolute right-2 top-2 z-10
-            flex h-8 w-8 items-center justify-center
-            rounded-lg bg-[#283044]/90
-            text-gray-400
-            transition-all duration-200
-            hover:bg-[#35405a]
-            hover:text-white
-          "
-          >
-            <Heart size={17} strokeWidth={2} />
-          </button>
-
           {/* Product Image */}
           <div className="aspect-[5/3] w-full">
             <img
-              src="/product-laptop.png"
-              alt="Gaming Laptop"
+              src={image}
+              alt={specs?.brand}
               className="h-full w-full object-cover"
             />
           </div>
@@ -52,9 +47,9 @@ const ProductCard = () => {
 
       {/* product spece */}
       <div className="grid grid-cols-3 gap-1.5 w-full mt-5">
-        {specs.map(({ icon: Icon, title, value }) => (
+        {specsData.map(({ icon: Icon, title, value }, i) => (
           <div
-            key={title}
+            key={i}
             className="
             flex items-center gap-2
             rounded-md

@@ -112,7 +112,7 @@ function AppRoutes() {
                 }
               />
               <Route
-                path="/product-detail"
+                path="/product-detail/:productId"
                 element={
                   <ErrorBoundary
                     fallback={<div>Product Detail Page Fatta!</div>}

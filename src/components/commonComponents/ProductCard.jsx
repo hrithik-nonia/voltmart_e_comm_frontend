@@ -1,12 +1,18 @@
 // built in imports
 import { ShoppingCart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // component imports
 
 function ProductCard({ value }) {
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="group flex flex-col justify-between rounded-3xl border border-slate-800/90 bg-[#0F1829] p-4 sm:p-5 shadow-md hover:border-slate-700 hover:-translate-y-1 transition-all duration-200 h-[350px]">
+      <div
+        className="group flex flex-col justify-between rounded-3xl border border-slate-800/90 bg-[#0F1829] p-4 sm:p-5 shadow-md hover:border-slate-700 hover:-translate-y-1 transition-all duration-200 h-[350px] cursor-pointer"
+        onClick={() => navigate(`/product-detail/${value.id}`)}
+      >
         {/* Product Image Container */}
         <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-950 border border-slate-800/80 h-[180px] shrink-0">
           <img
@@ -20,7 +26,7 @@ function ProductCard({ value }) {
         <div className="space-y-2">
           {/* Title & Subtitle */}
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight truncate group-hover:text-cyan-400 transition-colors cursor-pointer">
+            <h3 className="text-base font-bold text-white tracking-tight truncate group-hover:text-cyan-400 transition-colors ">
               {value.productName}
             </h3>
             <p className="text-xs text-slate-400 font-normal truncate mt-0.5">
@@ -54,7 +60,7 @@ function ProductCard({ value }) {
           {/* Add to Cart Orange Button */}
           <button
             type="button"
-            className="rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white p-2.5 shadow-md shadow-orange-500/20 active:scale-95 transition-all focus:outline-none cursor-pointer"
+            className="rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white p-2.5 shadow-md shadow-orange-500/20 active:scale-95 transition-all focus:outline-none "
             aria-label="Add to cart"
           >
             <ShoppingCart className="h-4 w-4 stroke-[2.5]" />

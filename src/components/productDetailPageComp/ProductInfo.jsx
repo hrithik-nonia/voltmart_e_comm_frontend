@@ -8,62 +8,67 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const ProductInfo = () => {
+const ProductInfo = ({ product, loading, error }) => {
   const [quantity, setQuantity] = useState(1);
-  const [selectedMemory, setSelectedMemory] = useState("64GB / 2TB");
 
-  const memoryOptions = [
-    {
-      name: "32GB / 1TB",
-      label: "Standard Core",
-      price: "",
-    },
-    {
-      name: "64GB / 2TB",
-      label: "Pro Choice",
-      price: "",
-    },
-    {
-      name: "128GB / 4TB",
-      label: "+₹52,000",
-      price: "",
-    },
-  ];
+  if (loading) {
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <p>{error?.message}</p>
+      </>
+    );
+  }
+
+  const saveAmount = product?.price - product?.salePrice;
 
   return (
     <section className=" ">
       {/* Product Title */}
       <h1 className="text-4xl font-bold leading-[1.15] tracking-tight">
-        Titan Pro X17 AI Neural
-        <br />
-        Deck
+        {product?.productName}
       </h1>
 
       {/* Stock */}
       <div className="mt-4 flex items-center gap-2 text-sm">
         <span className="flex items-center gap-1 text-cyan-400">
-          In Stock - 14 units left in Express Node
+          In Stock - {product?.stock} units left
         </span>
-
-        <span className="text-gray-300">Dispatches in 2h</span>
       </div>
 
       {/* Price Box */}
       <div className="mt-4 rounded-lg bg-[#121c32] p-3">
         <div className="flex items-center gap-2">
-          <span className="text-[24px] font-extrabold text-orange-500">
-            ₹2,49,999
-          </span>
+          {product?.salePrice ? (
+            <>
+              <span className="text-[24px] font-extrabold text-orange-500">
+                ₹ {product?.price}
+              </span>
 
-          <span className="text-[12px] text-gray-500 line-through">
-            ₹3,04,999
-          </span>
+              <span className="text-[12px] text-gray-500 line-through">
+                {product?.salePrice}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="text-[24px] font-extrabold text-orange-500">
+                ₹ {product?.price}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Savings */}
         <div className="mt-1 inline-flex rounded-full bg-orange-500/20 px-1.5 py-0.5">
           <span className="text-[10px] font-bold text-orange-400">
-            SAVE ₹55,000 (18% OFF)
+            SAVE ₹ {saveAmount}
           </span>
         </div>
 
@@ -76,52 +81,8 @@ const ProductInfo = () => {
 
       {/* Description */}
       <p className="mt-6 text-[10px] leading-[1.55] text-gray-200">
-        Engineered for elite esports and generative AI workloads. Featuring dual
-        liquid metal cryo-vapor cooling, 100% DCI-P3 factory-calibrated OLED
-        panel, and zero-latency per-key optical mechanical deck.
+        {product?.description}
       </p>
-
-      {/* Memory Header */}
-      <div className="mt-5 flex items-center justify-between">
-        <h3 className="text-[11px] font-bold">Neural Memory & NVMe Matrix</h3>
-
-        <span className="text-[7px] font-bold text-cyan-400">
-          UPGRADEABLE TO 128GB
-        </span>
-      </div>
-
-      {/* Memory Options */}
-      <div className="mt-2 grid grid-cols-3 gap-1.5">
-        {memoryOptions.map((option) => {
-          const active = selectedMemory === option.name;
-
-          return (
-            <button
-              key={option.name}
-              onClick={() => setSelectedMemory(option.name)}
-              className={`
-                h-[40px] rounded-md px-1 text-center
-                transition-all duration-200
-                ${
-                  active
-                    ? "bg-blue-600 shadow-lg shadow-blue-600/20"
-                    : "bg-[#111b30] hover:bg-[#17243d]"
-                }
-              `}
-            >
-              <p className="text-[12px] font-semibold">{option.name}</p>
-
-              <p
-                className={`mt-1 text-[10px] ${
-                  active ? "text-white" : "text-gray-500"
-                }`}
-              >
-                {active ? "Pro Choice" : option.label}
-              </p>
-            </button>
-          );
-        })}
-      </div>
 
       {/* Quantity + Add Cart */}
       <div className="mt-5 flex gap-2">
@@ -153,7 +114,7 @@ const ProductInfo = () => {
             text-[12px] font-semibold text-white
             transition-all duration-200
             hover:bg-orange-600
-            active:scale-[0.98]
+            active:scale-[0.98] cursor-pointer
           "
         >
           <ShoppingBag size={12} />
@@ -171,7 +132,7 @@ const ProductInfo = () => {
           shadow-lg shadow-blue-600/20
           transition-all
           hover:bg-blue-500
-          active:scale-[0.99]
+          active:scale-[0.99] cursor-pointer
         "
       >
         <Zap size={12} fill="currentColor" />
