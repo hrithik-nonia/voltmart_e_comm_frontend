@@ -92,7 +92,7 @@ function AppRoutes() {
                 }
               />
               <Route
-                path="/check-out"
+                path="/check-out/:productId"
                 element={
                   <ProtectedRoute role="user">
                     <ErrorBoundary fallback={<div>Paymant Page Fatta!</div>}>

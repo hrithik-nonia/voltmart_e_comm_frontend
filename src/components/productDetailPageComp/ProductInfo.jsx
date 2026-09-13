@@ -10,10 +10,12 @@ import {
 import { CREATE_CART_DATA } from "../../graphql/mutations/product";
 import { useMutation } from "@apollo/client/react";
 import { useMessage } from "../../context/MessageContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductInfo = ({ product, loading, error }) => {
   const [quantity, setQuantity] = useState(1);
   const { showError, showSuccess } = useMessage();
+  const navigate = useNavigate();
 
   // send create cart data request
   const [createCartData, { loading: cartLoading, error: cartDataError }] =
@@ -152,6 +154,7 @@ const ProductInfo = ({ product, loading, error }) => {
 
       {/* Instant Checkout */}
       <button
+        onClick={() => navigate(`/check-out/${product.id}`)}
         className="
           mt-2 flex h-[35px] w-full
           items-center justify-center gap-2
