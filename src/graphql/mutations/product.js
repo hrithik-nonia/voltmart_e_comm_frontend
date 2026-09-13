@@ -11,3 +11,11 @@ export const CREATE_PRODUCT = gql`
     }
   }
 `;
+
+export const CREATE_CART_DATA = gql`
+  mutation CreateCartData($productId: String!, $quantity: Int) {
+    createCartData(productId: $productId, quantity: $quantity) {
+      message
+    }
+  }
+`;

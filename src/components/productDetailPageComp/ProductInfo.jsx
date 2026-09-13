@@ -7,10 +7,19 @@ import {
   Truck,
   ShieldCheck,
 } from "lucide-react";
+import { CREATE_CART_DATA } from "../../graphql/mutations/product";
+import { useMutation } from "@apollo/client/react";
+import { useMessage } from "../../context/MessageContext";
 
 const ProductInfo = ({ product, loading, error }) => {
   const [quantity, setQuantity] = useState(1);
+  const { showError, showSuccess } = useMessage();
 
+  // send create cart data request
+  const [createCartData, { loading: cartLoading, error: cartDataError }] =
+    useMutation(CREATE_CART_DATA);
+
+  // ================
   if (loading) {
     return (
       <>
@@ -28,6 +37,23 @@ const ProductInfo = ({ product, loading, error }) => {
   }
 
   const saveAmount = product?.price - product?.salePrice;
+
+  // send create cart data request==========
+  const handleAddToCart = async (productId, quantity) => {
+    try {
+      const { data } = await createCartData({
+        variables: {
+          productId,
+          quantity,
+        },
+      });
+      showSuccess(data?.createCartData?.message);
+    } catch (err) {
+      showError(err.message);
+    }
+  };
+
+  if (cartDataError) return showError(cartDataError.message);
 
   return (
     <section className=" ">
@@ -107,6 +133,8 @@ const ProductInfo = ({ product, loading, error }) => {
 
         {/* Add Cart */}
         <button
+          disabled={cartLoading}
+          onClick={() => handleAddToCart(product.id, quantity)}
           className="
             flex h-[34px] flex-1 items-center
             justify-center gap-2
