@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { useQuery } from "@apollo/client/react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { useLazyQuery } from "@apollo/client/react";
 import { GET_PRODUCTS } from "../graphql/query/getProduct";
 
 const FetchAppDataContext = createContext();
@@ -8,24 +8,34 @@ export const AppDataProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [categoryId, setCategoryId] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
+  const prevCategoryId = useRef(null);
 
-  const { data, loading, error } = useQuery(GET_PRODUCTS, {
-    variables: { page, limit: 10, categoryId },
+  // ✅ array destructure karo
+  const [fetchProducts, { data, loading, error }] = useLazyQuery(GET_PRODUCTS, {
+    fetchPolicy: "network-only",
   });
 
-  // onCompleted ki jagah useEffect
+  // page ya categoryId change hone pe manually call karo
+  useEffect(() => {
+    fetchProducts({ variables: { page, limit: 10, categoryId } });
+    // eslint-disable-next-line
+  }, [page, categoryId]);
+
   useEffect(() => {
     const newProducts = data?.products?.data ?? [];
     if (newProducts.length === 0) return;
 
-    if (page === 1) {
+    if (categoryId !== prevCategoryId.current) {
+      setAllProducts(newProducts);
+      prevCategoryId.current = categoryId;
+    } else if (page === 1) {
       // eslint-disable-next-line
-      setAllProducts(newProducts); // fresh/category change
+      setAllProducts(newProducts);
     } else {
-      setAllProducts((prev) => [...prev, ...newProducts]); // append
+      setAllProducts((prev) => [...prev, ...newProducts]);
     }
     // eslint-disable-next-line
-  }, [data]); // data change hone pe trigger
+  }, [data]);
 
   const pagination = data?.products?.pagination ?? null;
 
@@ -36,7 +46,6 @@ export const AppDataProvider = ({ children }) => {
   const selectCategory = (id) => {
     setCategoryId(id || null);
     setPage(1);
-    setAllProducts([]);
   };
 
   return (

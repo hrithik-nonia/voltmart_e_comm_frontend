@@ -4,8 +4,6 @@ import { ShoppingCart } from "lucide-react";
 // component imports
 
 function ProductCard({ value }) {
-  console.log(value);
-
   return (
     <>
       <div className="group flex flex-col justify-between rounded-3xl border border-slate-800/90 bg-[#0F1829] p-4 sm:p-5 shadow-md hover:border-slate-700 hover:-translate-y-1 transition-all duration-200 h-[350px]">

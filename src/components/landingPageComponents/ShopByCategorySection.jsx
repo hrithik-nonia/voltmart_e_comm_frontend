@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // component imports
 import { HeadingComp } from "../commonComponents/SmallComponents";
 import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
+
 export default function ShopByCategorySection({ categories, error, loading }) {
   const { selectCategory } = useFetchAppDataContext();
   const navigate = useNavigate();

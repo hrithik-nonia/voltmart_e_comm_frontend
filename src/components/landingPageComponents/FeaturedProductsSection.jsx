@@ -10,6 +10,7 @@ export default function FeaturedProductsSection() {
   const scrollRef = useRef(null);
   const lastCardRef = useRef(null);
   const [loadMoreButton, setLoadMoreButton] = useState(false);
+
   // get products
   const {
     products,

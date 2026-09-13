@@ -14,9 +14,7 @@ export const GET_PRODUCTS = gql`
       }
       pagination {
         page
-        totalPages
         hasNext
-        hasPrev
         total
       }
     }
