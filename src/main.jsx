@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { MessageProvider } from "./context/MessageContext.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
-import { AppDataProvider } from "./context/FetchAppDataContext.jsx";
+import { AppDataProvider } from "./context/AppDataProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

@@ -1,7 +1,8 @@
-import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
+import { useContext } from "react";
+import { FetchAppDataContext } from "../../context/AppDataProvider";
 
 export default function ProductSortBar() {
-  const { pagination } = useFetchAppDataContext();
+  const { pagination } = useContext(FetchAppDataContext);
 
   return (
     <div className=" bg-[#091122] rounded-2xl border border-slate-800/90 shadow-xl shadow-black/50 px-5 sm:px-6 py-4">

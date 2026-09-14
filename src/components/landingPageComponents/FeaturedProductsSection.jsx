@@ -1,10 +1,10 @@
 // built in import
 import { ArrowRight } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 
 // component imports
 import ProductCard from "../commonComponents/ProductCard";
-import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
+import { FetchAppDataContext } from "../../context/AppDataProvider";
 
 export default function FeaturedProductsSection() {
   const scrollRef = useRef(null);
@@ -18,7 +18,7 @@ export default function FeaturedProductsSection() {
     loading: productLoading,
     error: productError,
     nextPage,
-  } = useFetchAppDataContext();
+  } = useContext(FetchAppDataContext);
 
   useEffect(() => {
     if (!lastCardRef.current) return;

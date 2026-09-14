@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
-import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
+import { FetchAppDataContext } from "../../context/AppDataProvider";
 
 export default function SidebarFilters({ categories, error, loading }) {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
-  const { selectCategory, categoryId } = useFetchAppDataContext();
+  const { selectCategory, categoryId } = useContext(FetchAppDataContext);
 
   // =====================
   if (error) {

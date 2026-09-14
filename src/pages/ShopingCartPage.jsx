@@ -1,14 +1,20 @@
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import MyCart from "../components/cartPageComp/CartItem";
 import OrderSummary from "../components/cartPageComp/OrderSummary";
+import { GET_CART_DATA } from "../graphql/query/getCartData";
+import { useQuery } from "@apollo/client/react";
 
 function ShopingCartPage() {
+  // get cart data
+  const { data, loading, error } = useQuery(GET_CART_DATA);
+  console.log(data);
+
   return (
     <>
       <section className="p-3 md:p-10 text-white grid grid-cols-1 md:grid-cols-10 bg-[#0B1323] font-sans gap-5">
         <div className="col-span-7">
           <ErrorBoundary fallback={<div>Product Data Component Fatta!</div>}>
-            <MyCart />
+            <MyCart data={data} loading={loading} error={error} />
           </ErrorBoundary>
         </div>
 

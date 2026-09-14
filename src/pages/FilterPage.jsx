@@ -2,10 +2,11 @@ import SidebarFilters from "../components/filterPageComponents/SidebarFilters";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import ProductSortBar from "../components/filterPageComponents/ProductSortBar";
 import ProductCard from "../components/commonComponents/ProductCard";
-import { useFetchAppDataContext } from "../context/FetchAppDataContext";
 import { ArrowRight } from "lucide-react";
 import { GET_CATEGORIES } from "../graphql/query/getCategory";
 import { useQuery } from "@apollo/client/react";
+import { useContext } from "react";
+import { FetchAppDataContext } from "../context/AppDataProvider";
 
 function FilterPage() {
   // get products
@@ -15,7 +16,7 @@ function FilterPage() {
     loading: productLoading,
     error: productError,
     nextPage,
-  } = useFetchAppDataContext();
+  } = useContext(FetchAppDataContext);
 
   const handleLoadMore = () => {
     const scrollY = window.scrollY;

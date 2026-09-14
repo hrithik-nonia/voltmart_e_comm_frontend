@@ -1,28 +1,42 @@
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { useLazyQuery } from "@apollo/client/react";
 import { GET_PRODUCTS } from "../graphql/query/getProduct";
 
-const FetchAppDataContext = createContext();
+// eslint-disable-next-line
+export const FetchAppDataContext = createContext(); // yahan banana hai
 
 export const AppDataProvider = ({ children }) => {
-  // ===========================================
   const [page, setPage] = useState(1);
   const [categoryId, setCategoryId] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
   const prevCategoryId = useRef(null);
+  const prevDataRef = useRef(null);
 
-  // ✅ array destructure karo
   const [fetchProducts, { data, loading, error }] = useLazyQuery(GET_PRODUCTS, {
     fetchPolicy: "network-only",
   });
 
-  // page ya categoryId change hone pe manually call karo
-  useEffect(() => {
-    fetchProducts({ variables: { page, limit: 10, categoryId } });
+  const stableFetchProducts = useCallback(
+    (variables) => fetchProducts({ variables }),
     // eslint-disable-next-line
-  }, [page, categoryId]);
+    [],
+  );
 
   useEffect(() => {
+    stableFetchProducts({ page, limit: 10, categoryId });
+  }, [page, categoryId, stableFetchProducts]);
+
+  useEffect(() => {
+    if (!data || data === prevDataRef.current) return;
+    prevDataRef.current = data;
+
     const newProducts = data?.products?.data ?? [];
     if (newProducts.length === 0) return;
 
@@ -40,33 +54,41 @@ export const AppDataProvider = ({ children }) => {
 
   const pagination = data?.products?.pagination ?? null;
 
-  const nextPage = () => {
+  const nextPage = useCallback(() => {
     if (pagination?.hasNext) setPage((p) => p + 1);
-  };
+  }, [pagination]);
 
-  const selectCategory = (id) => {
+  const selectCategory = useCallback((id) => {
     setCategoryId(id || null);
     setPage(1);
-  };
-  // ===============================
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      products: allProducts,
+      pagination,
+      page,
+      categoryId,
+      loading,
+      error,
+      nextPage,
+      selectCategory,
+    }),
+    [
+      allProducts,
+      pagination,
+      page,
+      categoryId,
+      loading,
+      error,
+      nextPage,
+      selectCategory,
+    ],
+  );
 
   return (
-    <FetchAppDataContext.Provider
-      value={{
-        products: allProducts,
-        pagination,
-        page,
-        categoryId,
-        loading,
-        error,
-        nextPage,
-        selectCategory,
-      }}
-    >
+    <FetchAppDataContext.Provider value={contextValue}>
       {children}
     </FetchAppDataContext.Provider>
   );
 };
-
-// eslint-disable-next-line
-export const useFetchAppDataContext = () => useContext(FetchAppDataContext);

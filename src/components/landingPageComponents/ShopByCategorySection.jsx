@@ -1,13 +1,14 @@
 // built in imports
 import * as Icons from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 // component imports
 import { HeadingComp } from "../commonComponents/SmallComponents";
-import { useFetchAppDataContext } from "../../context/FetchAppDataContext";
+import { FetchAppDataContext } from "../../context/AppDataProvider";
 
 export default function ShopByCategorySection({ categories, error, loading }) {
-  const { selectCategory } = useFetchAppDataContext();
+  const { selectCategory } = useContext(FetchAppDataContext);
   const navigate = useNavigate();
 
   // =====================
