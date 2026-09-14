@@ -154,7 +154,7 @@ const ProductInfo = ({ product, loading, error }) => {
 
       {/* Instant Checkout */}
       <button
-        onClick={() => navigate(`/check-out/${product.id}`)}
+        onClick={() => navigate(`/check-out/${product.id}/${quantity}`)}
         className="
           mt-2 flex h-[35px] w-full
           items-center justify-center gap-2

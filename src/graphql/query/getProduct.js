@@ -42,3 +42,16 @@ export const GET_PRODUCT_BY_ID = gql`
     }
   }
 `;
+
+export const GET_CHECKOUT_PRODUCT = gql`
+  query GetCheckOutProduct($productId: String!, $quantity: Int!) {
+    getOrderProduct(productId: $productId, quantity: $quantity) {
+      id
+      name
+      image
+      price
+      quantity
+      totalPrice
+    }
+  }
+`;

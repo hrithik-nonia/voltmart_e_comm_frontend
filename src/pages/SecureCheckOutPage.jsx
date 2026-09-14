@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 
 function SecureCheckOutPage() {
   const { productId } = useParams();
-  console.log(productId);
 
   return (
     <>
