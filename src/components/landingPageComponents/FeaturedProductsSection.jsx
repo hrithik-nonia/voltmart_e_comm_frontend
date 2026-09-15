@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useContext } from "react";
 
 // component imports
 import ProductCard from "../commonComponents/ProductCard";
-import { FetchAppDataContext } from "../../context/AppDataProvider";
+import { FetchAppDataContext } from "../../context/FetchAppDataContext";
 
 export default function FeaturedProductsSection() {
   const scrollRef = useRef(null);

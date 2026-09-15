@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
-import { FetchAppDataContext } from "../../context/AppDataProvider";
+import { FetchAppDataContext } from "../../context/FetchAppDataContext";
 
 export default function SidebarFilters({ categories, error, loading }) {
   const [categoriesOpen, setCategoriesOpen] = useState(true);

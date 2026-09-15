@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 // component imports
 import { HeadingComp } from "../commonComponents/SmallComponents";
-import { FetchAppDataContext } from "../../context/AppDataProvider";
+import { FetchAppDataContext } from "../../context/FetchAppDataContext";
 
 export default function ShopByCategorySection({ categories, error, loading }) {
   const { selectCategory } = useContext(FetchAppDataContext);

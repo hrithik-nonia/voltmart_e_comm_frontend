@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { FetchAppDataContext } from "../../context/AppDataProvider";
+import { FetchAppDataContext } from "../../context/FetchAppDataContext";
 
 export default function ProductSortBar() {
   const { pagination } = useContext(FetchAppDataContext);

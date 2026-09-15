@@ -1,16 +1,7 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { FetchAppDataContext } from "./FetchAppDataContext";
 import { useLazyQuery } from "@apollo/client/react";
 import { GET_PRODUCTS } from "../graphql/query/getProduct";
-
-// eslint-disable-next-line
-export const FetchAppDataContext = createContext(); // yahan banana hai
 
 export const AppDataProvider = ({ children }) => {
   const [page, setPage] = useState(1);

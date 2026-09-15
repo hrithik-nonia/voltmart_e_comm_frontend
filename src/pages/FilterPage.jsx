@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { GET_CATEGORIES } from "../graphql/query/getCategory";
 import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
-import { FetchAppDataContext } from "../context/AppDataProvider";
+import { FetchAppDataContext } from "../context/FetchAppDataContext";
 
 function FilterPage() {
   // get products
