@@ -1,51 +1,4 @@
-import { useState } from "react";
-
-const DeliveryAddress = () => {
-  const initialFormData = {
-    fullName: "",
-    phoneNum: "",
-    streetAddress: "",
-    city: "",
-    state: "",
-    pinCode: "",
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // check phone number format
-  const checkPhoneNumFormat = (num) => {
-    const phoneRegex = /^[6-9]\d{9}$/;
-
-    if (phoneRegex.test(num)) {
-      return true;
-    } else {
-      console.log("Invalid phone number");
-      return false;
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (formData.phoneNum) {
-      const isValidPhone = checkPhoneNumFormat(formData.phoneNum);
-
-      if (!isValidPhone) {
-        return;
-      }
-    }
-
-    console.log(formData);
-  };
+const DeliveryAddress = ({ formData, handleChange }) => {
   return (
     <section className="rounded-lg bg-[#1b263b] p-5">
       {/* Header */}
@@ -59,7 +12,7 @@ const DeliveryAddress = () => {
         </div>
       </div>
 
-      <form action="" onSubmit={handleSubmit}>
+      <form>
         {/* Full Name */}
         <div className="mb-3">
           <label className="mb-1 block text-[12px] font-medium text-blue-200">
@@ -72,9 +25,6 @@ const DeliveryAddress = () => {
             value={formData.fullName}
             onChange={handleChange}
             placeholder="Enter Full Name"
-            required
-            minLength={1}
-            maxLength={100}
             className="
             py-2.5 w-full rounded-md
             border border-[#2d3a52]
@@ -100,7 +50,6 @@ const DeliveryAddress = () => {
               name="phoneNum"
               value={formData.phoneNum}
               onChange={handleChange}
-              required
               placeholder="Enter Phone Number"
               className="
               py-2.5 w-full rounded-md
@@ -126,9 +75,6 @@ const DeliveryAddress = () => {
             name="state"
             value={formData.state}
             placeholder="Enter State"
-            required
-            minLength={2}
-            maxLength={100}
             onChange={handleChange}
             className="
             py-2.5 w-full rounded-md
@@ -153,9 +99,6 @@ const DeliveryAddress = () => {
             name="streetAddress"
             value={formData.streetAddress}
             placeholder="Enter Street Address"
-            required
-            minLength={1}
-            maxLength={100}
             onChange={handleChange}
             className="
             py-2.5 w-full rounded-md
@@ -183,9 +126,6 @@ const DeliveryAddress = () => {
               value={formData.city}
               onChange={handleChange}
               placeholder="Enter City"
-              required
-              minLength={2}
-              maxLength={100}
               className="
               py-2.5 w-full rounded-md
               border border-[#2d3a52]
@@ -225,8 +165,6 @@ const DeliveryAddress = () => {
             />
           </div>
         </div>
-
-        <button type="submit">handleSubmit</button>
       </form>
     </section>
   );

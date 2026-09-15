@@ -10,20 +10,43 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client/react";
 
 // component imports
 import AuthForm from "./AuthForm";
+import UserProfileDropdown from "./UserProfileDropdown";
+import { GET_ME } from "../../graphql/query/getProfile";
+import { useMessage } from "../../context/MessageContext";
 
 export default function Navbar({ cartCount = 2 }) {
+  const { showError } = useMessage();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLogin = localStorage.getItem("access_token");
-  const userData = JSON.parse(localStorage.getItem("user_data"));
 
   const [showAuthForm, setShowAuthForm] = useState(false);
 
   // for navigation
   const navigate = useNavigate();
+
+  // state for show drop down
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+
+  // get user data
+  const { data, loading, error } = useQuery(GET_ME);
+
+  if (error) {
+    showError(error?.message);
+    return;
+  }
+
+  if (loading)
+    return (
+      <>
+        <p>Loading...</p>
+      </>
+    );
 
   return (
     <>
@@ -125,23 +148,26 @@ export default function Navbar({ cartCount = 2 }) {
               {/* User Profile Pill */}
               {isLogin ? (
                 <>
-                  <div className="flex items-center gap-3 pl-1 sm:pl-2 border-l border-slate-800/80">
+                  <div
+                    className="flex items-center gap-3 pl-1 sm:pl-2 border-l border-slate-800/80 cursor-pointer"
+                    onClick={() => setIsDropDownOpen((prev) => !prev)}
+                  >
                     <div className="hidden sm:block text-right">
                       <p className="text-xs font-bold text-white leading-tight">
-                        {userData?.name}
+                        {data?.me?.name}
                       </p>
 
                       <p className="text-[10px] font-semibold text-emerald-600 leading-tight mt-0.5">
-                        {userData?.email}
+                        {data?.me?.email}
                       </p>
 
                       <p className="text-[10px] font-semibold text-amber-500 leading-tight mt-0.5">
-                        {userData?.role}
+                        {data?.me?.role}
                       </p>
                     </div>
                     <img
-                      src={userData?.image}
-                      alt={userData?.name}
+                      src={data?.me?.image}
+                      alt={data?.me?.name}
                       className="h-9 w-9 rounded-full object-cover border border-slate-700 shrink-0"
                     />
                   </div>
@@ -197,6 +223,8 @@ export default function Navbar({ cartCount = 2 }) {
       </header>
 
       {showAuthForm && <AuthForm onClose={() => setShowAuthForm(false)} />}
+
+      {isDropDownOpen && <UserProfileDropdown data={data?.me} />}
     </>
   );
 }

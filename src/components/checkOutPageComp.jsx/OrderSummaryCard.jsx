@@ -1,20 +1,12 @@
 import { ShieldCheck, ArrowRight, Mic } from "lucide-react";
-import { useQuery } from "@apollo/client/react";
-import { GET_CHECKOUT_PRODUCT } from "../../graphql/query/getProduct";
-import { useParams } from "react-router-dom";
 
-export default function OrderSummaryCard({ onPlaceOrder = () => {} }) {
-  // parameter se data nikala
-  const { productId, quantity } = useParams();
-
-  const productQuantity = Number(quantity);
-
-  // api call
-  const { data, loading, error } = useQuery(GET_CHECKOUT_PRODUCT, {
-    variables: { productId, quantity: productQuantity },
-    skip: !productId,
-  });
-
+export default function OrderSummaryCard({
+  handleSubmit,
+  data,
+  loading,
+  error,
+  orderLoading,
+}) {
   if (loading)
     return (
       <>
@@ -123,17 +115,24 @@ export default function OrderSummaryCard({ onPlaceOrder = () => {} }) {
         </div>
 
         <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
-          {shippingCharge + subtotal}
+          ₹{shippingCharge + subtotal}
         </div>
       </div>
 
       {/* Place Order CTA Button */}
       <button
         type="button"
-        onClick={onPlaceOrder}
+        onClick={(e) =>
+          handleSubmit(
+            e,
+            data?.getOrderProduct?.id,
+            data?.getOrderProduct?.quantity,
+          )
+        }
         className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-base py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
       >
-        <span>Place Order</span>
+        {orderLoading ? <span>Loading...</span> : <span>Place Order</span>}
+
         <ArrowRight className="h-5 w-5 stroke-[2.5]" />
       </button>
 

@@ -16,6 +16,7 @@ const AdminCategoriePage = lazy(() => import("../pages/AdminCategoriePage"));
 const AdminCustomersPage = lazy(() => import("../pages/AdminCustomerPage"));
 const AdminAnalyticsPage = lazy(() => import("../pages/AdminAnalyticsPage"));
 const AdminSettingPage = lazy(() => import("../pages/AdminSettingPage"));
+const PaymentPage = lazy(() => import("../pages/PaymentPage"));
 
 import VoltmartPreloader from "../components/commonComponents/VoltmartPreloader";
 import Navbar from "../components/commonComponents/NavBar";
@@ -126,6 +127,15 @@ function AppRoutes() {
                 element={
                   <ErrorBoundary fallback={<div>Filter Page Fatta!</div>}>
                     <FilterPage />
+                  </ErrorBoundary>
+                }
+              />
+
+              <Route
+                path="/payment/:orderId"
+                element={
+                  <ErrorBoundary fallback={<div>Payment Page Fatta!</div>}>
+                    <PaymentPage />
                   </ErrorBoundary>
                 }
               />
