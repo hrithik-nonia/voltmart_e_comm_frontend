@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CREATE_CART_DATA } from "../../graphql/mutations/product";
 import { useMutation } from "@apollo/client/react";
 import { useMessage } from "../../context/MessageContext";
+import { useEffect } from "react";
 
 // component imports
 
@@ -13,6 +14,13 @@ function ProductCard({ value }) {
 
   // send create cart data request
   const [createCartData, { loading, error }] = useMutation(CREATE_CART_DATA);
+
+  useEffect(() => {
+    if (error) {
+      showError(error.message);
+    }
+    // eslint-disable-next-line
+  }, [error]);
 
   const handleAddToCart = async (productId) => {
     try {
@@ -26,9 +34,6 @@ function ProductCard({ value }) {
       showError(err.message);
     }
   };
-
-  if (error) return showError(error.message);
-
   return (
     <>
       <div className="group flex flex-col justify-between rounded-3xl border border-slate-800/90 bg-[#0F1829] p-4 sm:p-5 shadow-md hover:border-slate-700 hover:-translate-y-1 transition-all duration-200 h-[350px] ">

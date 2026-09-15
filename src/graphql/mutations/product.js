@@ -19,3 +19,11 @@ export const CREATE_CART_DATA = gql`
     }
   }
 `;
+
+export const DELETE_CART_DATA = gql`
+  mutation DeleteCartData($productId: String!) {
+    deleteCartData(productId: $productId) {
+      message
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Minus,
   Plus,
@@ -20,6 +20,13 @@ const ProductInfo = ({ product, loading, error }) => {
   // send create cart data request
   const [createCartData, { loading: cartLoading, error: cartDataError }] =
     useMutation(CREATE_CART_DATA);
+
+  useEffect(() => {
+    if (cartDataError) {
+      showError(cartDataError.message);
+    }
+    // eslint-disable-next-line
+  }, [cartDataError]);
 
   // ================
   if (loading) {
@@ -54,8 +61,6 @@ const ProductInfo = ({ product, loading, error }) => {
       showError(err.message);
     }
   };
-
-  if (cartDataError) return showError(cartDataError.message);
 
   return (
     <section className=" ">

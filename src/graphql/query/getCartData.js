@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_CART_DATA = gql`
-  query {
+  query GetCartData {
     getCartData {
       cartId
       productId
@@ -11,6 +11,7 @@ export const GET_CART_DATA = gql`
       description
       salePrice
       price
+      quantity
     }
   }
 `;

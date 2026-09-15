@@ -6,7 +6,8 @@ import PaymentMethodWidget from "../components/checkOutPageComp.jsx/PaymentMetho
 import { useParams } from "react-router-dom";
 
 function SecureCheckOutPage() {
-  const { productId } = useParams();
+  const { productId, quantity } = useParams();
+  console.log("check out page log" + productId, quantity);
 
   return (
     <>

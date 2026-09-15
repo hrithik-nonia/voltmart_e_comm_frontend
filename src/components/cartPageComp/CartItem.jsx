@@ -1,11 +1,39 @@
-import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowLeft, WalletCards } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client/react";
+import { DELETE_CART_DATA } from "../../graphql/mutations/product";
+import { useMessage } from "../../context/MessageContext";
 
 const CartItem = ({ item }) => {
-  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(item.quantity);
+  const { showError, showSuccess } = useMessage();
+
+  const [deleteCartData, { loading }] = useMutation(DELETE_CART_DATA, {
+    refetchQueries: ["GetCartData"],
+  });
+
+  const handleDelete = async () => {
+    try {
+      const { data } = await deleteCartData({
+        variables: {
+          productId: item.productId,
+        },
+      });
+
+      showSuccess(data?.deleteCartData?.message);
+    } catch (error) {
+      showError(error?.message);
+    }
+  };
+
+  const handleCheckOut = () => {
+    navigate(`/check-out/${item.productId}/${quantity}`);
+  };
+
   return (
-    <div className="grid grid-cols-[66px_minmax(0,1fr)_66px_90px_20px] items-center gap-3 border-b border-[#202a40] px-4 py-4 last:border-b-0">
+    <div className="grid grid-cols-[66px_minmax(0,1fr)_66px_90px_auto] items-center gap-3 border-b border-[#202a40] px-4 py-4 last:border-b-0">
       {/* Product Image */}
       <div className="relative h-[70px] w-[70px] overflow-hidden rounded-sm bg-[#080f20]">
         <img
@@ -57,29 +85,47 @@ const CartItem = ({ item }) => {
         {item.salePrice ? (
           <>
             <p className="text-[14px] font-bold text-orange-400">
-              {item.salePrice}
+              ₹{item.salePrice}
             </p>
 
             <p className="text-[10px] text-gray-500 line-through">
-              {item.price}
+              ₹{item.price}
             </p>
           </>
         ) : (
           <>
             <p className="text-[14px] font-bold text-orange-400">
-              {item.price}
+              ₹{item.price}
             </p>
           </>
         )}
       </div>
 
-      {/* Delete */}
-      <button
-        className="text-gray-500 transition hover:text-red-400"
-        title="Remove item"
-      >
-        <Trash2 size={16} />
-      </button>
+      <div className="flex flex-col gap-5 items-end">
+        {/* Delete */}
+        <button
+          className="text-gray-500 transition hover:text-red-400"
+          title="Remove item"
+          disabled={loading}
+          onClick={handleDelete}
+        >
+          <Trash2 size={16} />
+        </button>
+
+        {/* Check Out Process */}
+        <button
+          type="button"
+          onClick={handleCheckOut}
+          className="group inline-flex items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5 text-[12px] font-semibold text-cyan-400 transition-all duration-200 hover:border-cyan-400/50 hover:bg-cyan-500/20 hover:text-cyan-300 active:scale-95 cursor-pointer"
+          title="Proceed to checkout"
+        >
+          <span>Checkout</span>
+          <WalletCards
+            size={16}
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </button>
+      </div>
     </div>
   );
 };
