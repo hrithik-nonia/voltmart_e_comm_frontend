@@ -8,7 +8,7 @@ import { LOGIN, SIGN_UP, OTP_VERIFY } from "../../graphql/mutations/auth";
 import { useMessage } from "../../context/MessageContext";
 import { uploadProfileImage } from "../../api/postApis";
 
-export default function AuthForm({ onClose }) {
+export default function AuthForm({ onClose, setIsLogin }) {
   const [activeTab, setActiveTab] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -57,6 +57,7 @@ export default function AuthForm({ onClose }) {
       localStorage.setItem("access_token", token);
       localStorage.setItem("user_data", JSON.stringify(data.login.user));
       showSuccess(data?.login?.message);
+      setIsLogin(token);
       onClose();
 
       const payload = JSON.parse(atob(token.split(".")[1]));

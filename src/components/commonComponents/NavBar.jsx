@@ -16,14 +16,13 @@ import { useQuery } from "@apollo/client/react";
 import AuthForm from "./AuthForm";
 import UserProfileDropdown from "./UserProfileDropdown";
 import { GET_ME } from "../../graphql/query/getProfile";
-import { useMessage } from "../../context/MessageContext";
 
 export default function Navbar({ cartCount = 2 }) {
-  const { showError } = useMessage();
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isLogin = localStorage.getItem("access_token");
+  const [isLogin, setIsLogin] = useState(() =>
+    localStorage.getItem("access_token"),
+  );
 
   const [showAuthForm, setShowAuthForm] = useState(false);
 
@@ -34,12 +33,9 @@ export default function Navbar({ cartCount = 2 }) {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   // get user data
-  const { data, loading, error } = useQuery(GET_ME);
-
-  if (error) {
-    showError(error?.message);
-    return;
-  }
+  const { data, loading } = useQuery(GET_ME, {
+    skip: !isLogin,
+  });
 
   if (loading)
     return (
@@ -222,7 +218,12 @@ export default function Navbar({ cartCount = 2 }) {
         )}
       </header>
 
-      {showAuthForm && <AuthForm onClose={() => setShowAuthForm(false)} />}
+      {showAuthForm && (
+        <AuthForm
+          onClose={() => setShowAuthForm(false)}
+          setIsLogin={setIsLogin}
+        />
+      )}
 
       {isDropDownOpen && <UserProfileDropdown data={data?.me} />}
     </>

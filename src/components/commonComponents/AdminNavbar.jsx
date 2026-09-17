@@ -7,20 +7,13 @@ import UserProfileDropdown from "./UserProfileDropdown";
 import ErrorBoundary from "./ErrorBoundary";
 import NotificationsDropdown from "./NotificationsDropdown";
 import { GET_ME } from "../../graphql/query/getProfile";
-import { useMessage } from "../../context/MessageContext";
 
 export default function DashboardTopBar({ hasNotification = true }) {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [showNotificationDropdown, setShowNotificationDropdown] =
     useState(false);
-  const { showError } = useMessage();
 
-  const { data, loading, error } = useQuery(GET_ME);
-
-  if (error) {
-    showError(error?.message);
-    return;
-  }
+  const { data, loading } = useQuery(GET_ME);
 
   return (
     <>

@@ -159,60 +159,74 @@ function AppRoutes() {
               <Route
                 path="/adminProductPage"
                 element={
-                  <ErrorBoundary
-                    fallback={<div>Admin Product Page Fatta!</div>}
-                  >
-                    <AdminProductPage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Product Page Fatta!</div>}
+                    >
+                      <AdminProductPage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
 
               <Route
                 path="/adminOrderPage"
                 element={
-                  <ErrorBoundary fallback={<div>Admin Order Page Fatta!</div>}>
-                    <AdminOrderPage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Order Page Fatta!</div>}
+                    >
+                      <AdminOrderPage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/adminCategoriePage"
                 element={
-                  <ErrorBoundary
-                    fallback={<div>Admin Categorie Page Fatta!</div>}
-                  >
-                    <AdminCategoriePage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Categorie Page Fatta!</div>}
+                    >
+                      <AdminCategoriePage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/adminCustomersPage"
                 element={
-                  <ErrorBoundary
-                    fallback={<div>Admin Customers Page Fatta!</div>}
-                  >
-                    <AdminCustomersPage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Customers Page Fatta!</div>}
+                    >
+                      <AdminCustomersPage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/adminAnalyticsPage"
                 element={
-                  <ErrorBoundary
-                    fallback={<div>Admin Analytics Page Fatta!</div>}
-                  >
-                    <AdminAnalyticsPage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Analytics Page Fatta!</div>}
+                    >
+                      <AdminAnalyticsPage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/adminSettingPage"
                 element={
-                  <ErrorBoundary
-                    fallback={<div>Admin Setting Page Fatta!</div>}
-                  >
-                    <AdminSettingPage />
-                  </ErrorBoundary>
+                  <ProtectedRoute role="admin">
+                    <ErrorBoundary
+                      fallback={<div>Admin Setting Page Fatta!</div>}
+                    >
+                      <AdminSettingPage />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
                 }
               />
             </Route>
