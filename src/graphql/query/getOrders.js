@@ -15,3 +15,35 @@ export const GET_MY_ORDERS = gql`
     }
   }
 `;
+
+
+export const GET_ORDER_BY_ID = gql`
+  query GetOrderById($orderId: String!) {
+    getOrderById(orderId: $orderId) {
+      id
+      orderNumber
+      productImage
+      productName
+      quantity
+      total
+      paymentStatus
+      deliveryStatus
+      createdAt
+
+      address {
+        fullName
+        phoneNum
+        streetAddress
+        city
+        state
+        pinCode
+      }
+
+      amounts {
+        subtotal
+        discount
+        shipping
+      }
+    }
+  }
+`;
