@@ -33,10 +33,10 @@ export default function MyOrdersDashboard() {
     },
   });
 
-  const onCancelOrder = (orderId) => {
+  const onCancelOrder = (orderIdForCancel) => {
     cancelOrder({
       variables: {
-        orderId: orderId,
+        orderId: orderIdForCancel,
       },
     });
   };
@@ -44,14 +44,17 @@ export default function MyOrdersDashboard() {
   const orders = data?.getOrders || [];
 
   // date time conversion
-  const readableDate = (date) =>
-    new Date(date).toLocaleString("en-IN", {
+  const readableDate = (date) => {
+    const utcDate = new Date(date.replace(" ", "T") + "Z");
+    return utcDate.toLocaleString("en-IN", {
       day: "2-digit",
       month: "short",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
+      timeZone: "Asia/Kolkata",
     });
+  };
 
   // order status style
   const style = (status) => {
@@ -72,12 +75,12 @@ export default function MyOrdersDashboard() {
     let paymentStatus = status.toLowerCase();
     if (paymentStatus === "pending") {
       return "bg-amber-950/80 border-amber-800/60 text-amber-400";
-    } else if (paymentStatus === "delivered") {
+    } else if (paymentStatus === "paid") {
       return "bg-emerald-950/80 border-emerald-800/60 text-emerald-400";
-    } else if (paymentStatus === "shipped") {
-      return "bg-blue-950/80 border-blue-800/60 text-blue-400";
-    } else if (paymentStatus === "cancelled") {
+    } else if (paymentStatus === "failed") {
       return "bg-red-950/80 border-red-800/60 text-red-400";
+    } else if (paymentStatus === "refunded") {
+      return "bg-blue-950/80 border-blue-800/60 text-blue-400";
     }
   };
 
@@ -201,15 +204,17 @@ export default function MyOrdersDashboard() {
                   {/* Right Action Buttons */}
                   <div className="flex items-center gap-2.5 justify-end">
                     {(order?.deliveryStatus === "pending" ||
-                      order?.deliveryStatus === "confirmed" ||
-                      order?.deliveryStatus === "shipped") && (
+                      order?.deliveryStatus === "confirmed") && (
                       <button
                         type="button"
+                        disabled={cancelLoading}
                         onClick={() => onCancelOrder(order?.id)}
                         className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/40 border border-rose-800/50 text-xs font-bold text-rose-400 transition-colors cursor-pointer"
                       >
                         <XCircle className="h-3.5 w-3.5" />
-                        <span>Cancel Order</span>
+                        <span>
+                          {cancelLoading ? "Cancelling..." : "Cancel Order"}
+                        </span>
                       </button>
                     )}
 
