@@ -11,18 +11,16 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client/react";
+import { useAppProvider } from "../../context/AppContext";
 
 // component imports
 import AuthForm from "./AuthForm";
 import UserProfileDropdown from "./UserProfileDropdown";
 import { GET_ME } from "../../graphql/query/getProfile";
 
-export default function Navbar({ cartCount = 2 }) {
+export default function Navbar() {
+  const { isLogin, setIsLogin, cartCount } = useAppProvider();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const [isLogin, setIsLogin] = useState(() =>
-    localStorage.getItem("access_token"),
-  );
 
   const [showAuthForm, setShowAuthForm] = useState(false);
 

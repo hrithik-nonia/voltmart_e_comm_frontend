@@ -2,7 +2,6 @@ import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import CheckoutHeader from "../components/checkOutPageComp.jsx/CheckoutHeader";
 import DeliveryAddress from "../components/checkOutPageComp.jsx/DeliveryAddress";
 import OrderSummaryCard from "../components/checkOutPageComp.jsx/OrderSummaryCard";
-import PaymentMethodWidget from "../components/checkOutPageComp.jsx/PaymentMethodWidget";
 import { useParams, useNavigate } from "react-router-dom";
 import { GET_CHECKOUT_PRODUCT } from "../graphql/query/getProduct";
 import { useQuery } from "@apollo/client/react";
@@ -130,12 +129,6 @@ function SecureCheckOutPage() {
               formData={formData}
               handleChange={handleChange}
             />
-          </ErrorBoundary>
-
-          <ErrorBoundary
-            fallback={<div>Payment Method Widget Component Fatta!</div>}
-          >
-            <PaymentMethodWidget />
           </ErrorBoundary>
         </div>
 
