@@ -10,3 +10,12 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+
+
+export const CANCEL_ORDER = gql`
+  mutation CancelOrder($orderId: String!) {
+    cancelOrder(orderId: $orderId) {
+      message
+    }
+  }
+`;

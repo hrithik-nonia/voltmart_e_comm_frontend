@@ -1,24 +1,45 @@
 import { useState } from "react";
 import { RotateCcw, FileText, XCircle } from "lucide-react";
-import { useQuery } from "@apollo/client/react";
+import { useQuery, useMutation } from "@apollo/client/react";
 import { GET_MY_ORDERS } from "../graphql/query/getOrders";
 import OrderDetailsModal from "../components/myOrderPageComp/OrderDetailsModal";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
+import { useNavigate } from "react-router-dom";
+import { CANCEL_ORDER } from "../graphql/mutations/order";
+import { useMessage } from "../context/MessageContext";
 
-export default function MyOrdersDashboard({
-  onBuyAgain = () => {},
-  onCancelOrder = () => {},
-}) {
+export default function MyOrdersDashboard() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [showDetaliOrderData, setShowDetailOrderData] = useState(false);
   const [orderId, setOrderId] = useState(null);
+  const { showSuccess, showError } = useMessage();
 
-  // ── API call ──
-  const { data, loading, error } = useQuery(GET_MY_ORDERS, {
+  // ── API call Get Orders Array──
+  const { data, loading, error, refetch } = useQuery(GET_MY_ORDERS, {
     variables: {
       status: activeTab === "all" ? null : activeTab.toUpperCase(),
     },
   });
+
+  // Cancel Order
+  const [cancelOrder, { loading: cancelLoading }] = useMutation(CANCEL_ORDER, {
+    onCompleted: (data) => {
+      showSuccess(data?.cancelOrder?.message);
+      refetch(); // ← orders list refresh karo
+    },
+    onError: (err) => {
+      showError(err.message);
+    },
+  });
+
+  const onCancelOrder = (orderId) => {
+    cancelOrder({
+      variables: {
+        orderId: orderId,
+      },
+    });
+  };
 
   const orders = data?.getOrders || [];
 
@@ -184,7 +205,7 @@ export default function MyOrdersDashboard({
                       order?.deliveryStatus === "shipped") && (
                       <button
                         type="button"
-                        onClick={() => onCancelOrder(order)}
+                        onClick={() => onCancelOrder(order?.id)}
                         className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-950/30 hover:bg-rose-900/40 border border-rose-800/50 text-xs font-bold text-rose-400 transition-colors cursor-pointer"
                       >
                         <XCircle className="h-3.5 w-3.5" />
@@ -201,16 +222,17 @@ export default function MyOrdersDashboard({
                       <span>View Details</span>
                     </button>
 
-                    {order?.deliveryStatus === "delivered" && (
-                      <button
-                        type="button"
-                        onClick={() => onBuyAgain(order)}
-                        className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-800/60 text-xs font-bold text-amber-400 transition-colors cursor-pointer"
-                      >
-                        <RotateCcw className="h-3.5 w-3.5" />
-                        <span>Buy Again</span>
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      disabled={cancelLoading}
+                      onClick={() =>
+                        navigate(`/product-detail/${order?.productId}`)
+                      }
+                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-800/60 text-xs font-bold text-amber-400 transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="h-3.5 w-3.5" />
+                      <span>Buy Again</span>
+                    </button>
                   </div>
                 </div>
               </div>

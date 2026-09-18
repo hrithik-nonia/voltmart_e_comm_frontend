@@ -4,6 +4,7 @@ export const GET_MY_ORDERS = gql`
   query GetMyOrders($status: OrderStatus) {
     getOrders(status: $status) {
       id
+      productId
       orderNumber
       productImage
       productName
