@@ -22,8 +22,7 @@ export function AdminHeaderComp({
   text,
   btnText,
   onclick,
-  onExportTelemetry = () => {},
-
+  handleExport,
   onDateRangeChange = () => {},
 }) {
   const location = useLocation();
@@ -116,7 +115,7 @@ export function AdminHeaderComp({
           {/* Export Telemetry (CSV) */}
           <button
             type="button"
-            onClick={onExportTelemetry}
+            onClick={handleExport}
             className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#111C33] hover:bg-slate-800/80 border border-slate-800 text-xs sm:text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
           >
             <Download className="h-4 w-4 text-slate-400 stroke-[2.2]" />

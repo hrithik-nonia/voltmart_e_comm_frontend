@@ -1,46 +1,30 @@
-import { Banknote, Truck, Cpu, Share2 } from "lucide-react";
+export default function MissionControlKPICards({ cards, loading, error }) {
+  if (loading)
+    return (
+      <>
+        <div className="flex justify-center items-center border-r-gray-700 text-lg font-semibold">
+          Loading...
+        </div>
+      </>
+    );
 
-const kpiData = [
-  {
-    id: "revenue",
-    label: "GROSS REVENUE",
-    value: "₹4,82,000",
-    icon: Banknote,
-    iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
-  },
-  {
-    id: "fulfillment",
-    label: "TOTAL FULFILLMENT",
-    value: "1,284",
-    icon: Truck,
-    iconStyle: "bg-[#0E1A30] border-blue-800/50 text-blue-400",
-  },
-  {
-    id: "hardware",
-    label: "HARDWARE MATRIX SKUS",
-    value: "342",
-    icon: Cpu,
-    iconStyle: "bg-[#1E1416] border-amber-900/50 text-amber-500",
-  },
-  {
-    id: "clients",
-    label: "QUANTUM CLIENTS",
-    value: "5,621",
-    icon: Share2,
-    iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
-  },
-];
-
-export default function MissionControlKPICards({ cards = kpiData }) {
+  if (error)
+    return (
+      <>
+        <div className="flex justify-center items-center border-r-gray-700 text-lg font-semibold">
+          {error?.message}
+        </div>
+      </>
+    );
   return (
     <section>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {cards.map((card) => {
+        {cards.map((card, i) => {
           const Icon = card.icon;
 
           return (
             <div
-              key={card.id}
+              key={i}
               className="bg-[#091122] rounded-2xl border border-slate-800/90 p-5 space-y-4 shadow-xl shadow-black/40 hover:border-slate-700/90 hover:-translate-y-0.5 transition-all duration-200 text-left"
             >
               {/* Header: Title & Icon */}

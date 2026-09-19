@@ -3,10 +3,9 @@ import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import ProductSortBar from "../components/filterPageComponents/ProductSortBar";
 import ProductCard from "../components/commonComponents/ProductCard";
 import { ArrowRight } from "lucide-react";
-import { GET_CATEGORIES } from "../graphql/query/getCategory";
-import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { FetchAppDataContext } from "../context/FetchAppDataContext";
+import { useAppProvider } from "../context/AppContext";
 
 function FilterPage() {
   // get products
@@ -18,6 +17,9 @@ function FilterPage() {
     nextPage,
   } = useContext(FetchAppDataContext);
 
+  // get category data from context
+  const { categoryData, categoryLoading, categoryEerror } = useAppProvider();
+
   const handleLoadMore = () => {
     const scrollY = window.scrollY;
     nextPage();
@@ -26,9 +28,6 @@ function FilterPage() {
       window.scrollTo(0, scrollY);
     }, 100);
   };
-
-  // get category data
-  const { data, loading, error } = useQuery(GET_CATEGORIES);
 
   if (productLoading) {
     return (
@@ -48,9 +47,9 @@ function FilterPage() {
         <div className="col-span-1">
           <ErrorBoundary fallback={<div>Sidebar Filters Component Fatta!</div>}>
             <SidebarFilters
-              categories={data?.getCategory ?? []}
-              error={error}
-              loading={loading}
+              categories={categoryData?.getCategory ?? []}
+              error={categoryEerror}
+              loading={categoryLoading}
             />
           </ErrorBoundary>
         </div>

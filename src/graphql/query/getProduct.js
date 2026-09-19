@@ -55,3 +55,36 @@ export const GET_CHECKOUT_PRODUCT = gql`
     }
   }
 `;
+
+
+export const GET_ADMIN_PRODUCTS = gql`
+  query GetAdminProducts($page: Int!, $limit: Int!, $categoryId: String) {
+    getAdminProducts(
+      page: $page
+      limit: $limit
+      categoryId: $categoryId
+    ) {
+      products {
+        id
+        image
+        productName
+        sku
+        createdAt
+        price
+        stock
+        isActive
+        specs {
+          brand
+          color
+          warranty
+        }
+      }
+      pagination {
+        page
+        limit
+        total
+        hasNext
+      }
+    }
+  }
+`;

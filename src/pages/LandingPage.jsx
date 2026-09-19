@@ -1,16 +1,15 @@
 // built in imports
-import { useQuery } from "@apollo/client/react";
 
 // component imports
 import VoltmartHeroSection from "../components/landingPageComponents/VoltmartHeroSection";
 import ShopByCategorySection from "../components/landingPageComponents/ShopByCategorySection";
 import FeaturedProductsSection from "../components/landingPageComponents/FeaturedProductsSection";
 import TrustPerksBanner from "../components/landingPageComponents/TrustPerksBanner";
-import { GET_CATEGORIES } from "../graphql/query/getCategory";
+import { useAppProvider } from "../context/AppContext";
 
 function LandingPage() {
-  // get category data
-  const { data, loading, error } = useQuery(GET_CATEGORIES);
+  // get category data from context
+  const { categoryData, categoryLoading, categoryEerror } = useAppProvider();
 
   return (
     <>
@@ -23,9 +22,9 @@ function LandingPage() {
         {/* category section */}
         <section>
           <ShopByCategorySection
-            categories={data?.getCategory ?? []}
-            error={error}
-            loading={loading}
+            categories={categoryData?.getCategory ?? []}
+            error={categoryEerror}
+            loading={categoryLoading}
           />
         </section>
 

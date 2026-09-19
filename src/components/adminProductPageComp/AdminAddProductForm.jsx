@@ -777,7 +777,10 @@ function AdminAddProductForm({ onClose }) {
                   transition
                   hover:bg-red-500/20
                 "
-                  onClick={() => setImage(null)}
+                  onClick={() => {
+                    setShowImgPrevComp(false);
+                    setImage(null);
+                  }}
                 >
                   <X size={14} strokeWidth={2.5} />
                   Reject

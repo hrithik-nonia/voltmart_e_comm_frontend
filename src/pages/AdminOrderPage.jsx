@@ -7,39 +7,40 @@ import MissionControlKPICards from "../components/commonComponents/MissionContro
 import InventoryFilterBar from "../components/commonComponents/InventoryFilterBar";
 import OrderDashboard from "../components/adminOrdersPageComp/OrderDashboard";
 import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
-
-const kpiData = [
-  {
-    id: "revenue",
-    label: "total volume",
-    value: "82,000",
-    icon: ShoppingCart,
-    iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
-  },
-  {
-    id: "fulfillment",
-    label: "TOTAL FULFILLMENT",
-    value: "1,284",
-    icon: Workflow,
-    iconStyle: "bg-[#0E1A30] border-blue-800/50 text-blue-400",
-  },
-  {
-    id: "hardware",
-    label: "HARDWARE MATRIX SKUS",
-    value: "342",
-    icon: Truck,
-    iconStyle: "bg-[#1E1416] border-amber-900/50 text-amber-500",
-  },
-  {
-    id: "clients",
-    label: "QUANTUM CLIENTS",
-    value: "5,621",
-    icon: Waypoints,
-    iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
-  },
-];
+import { useAdminAppContext } from "../context/AdminAppContext";
 
 function AdminOrderPage() {
+  const { dashboardLoading, dashboardError, dashboardStats } =
+    useAdminAppContext();
+
+  // Order Card Data
+  const ordersCaraData = [
+    {
+      label: "TOTAL ORDERS",
+      value: dashboardStats?.totalOrders,
+      icon: ShoppingCart,
+      iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
+    },
+    {
+      label: "TOTAL FULFILLMENT",
+      value: dashboardStats?.totalFulfillment,
+      icon: Workflow,
+      iconStyle: "bg-[#0E1A30] border-blue-800/50 text-blue-400",
+    },
+    {
+      label: "TOTAL PRODUCTS",
+      value: dashboardStats?.totalProducts,
+      icon: Truck,
+      iconStyle: "bg-[#1E1416] border-amber-900/50 text-amber-500",
+    },
+    {
+      label: "CLIENTS",
+      value: dashboardStats?.totalCustomers,
+      icon: Waypoints,
+      iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
+    },
+  ];
+
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
@@ -52,7 +53,11 @@ function AdminOrderPage() {
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Status Card Component Fatta!</div>}>
-          <MissionControlKPICards cards={kpiData} />
+          <MissionControlKPICards
+            cards={ordersCaraData}
+            loading={dashboardLoading}
+            error={dashboardError}
+          />
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Filter Bar Component Fatta!</div>}>

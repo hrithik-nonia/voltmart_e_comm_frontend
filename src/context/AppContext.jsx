@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { GET_CART_DATA } from "../graphql/query/getCartData";
 import { useQuery } from "@apollo/client/react";
 import { IsTokenValid } from "../utils/verifyToken";
+import { GET_CATEGORIES } from "../graphql/query/getCategory";
 
 const AppContext = createContext();
 
@@ -20,6 +21,14 @@ export const AppProvider = ({ children }) => {
     skip: !isLogin,
   });
 
+  // get category data
+  const {
+    data: categoryData,
+    loading: categoryLoading,
+    error: categoryEerror,
+  } = useQuery(GET_CATEGORIES);
+
+  // set cart count
   useEffect(() => {
     if (cartData) {
       // eslint-disable-next-line
@@ -37,6 +46,9 @@ export const AppProvider = ({ children }) => {
           setIsLogin,
           cartLoading,
           cartError,
+          categoryData,
+          categoryLoading,
+          categoryEerror,
         }}
       >
         {children}

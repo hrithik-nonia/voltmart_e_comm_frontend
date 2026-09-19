@@ -1,4 +1,5 @@
 // built in imports
+import { Banknote, Truck, Cpu, Share2 } from "lucide-react";
 
 // custom imports
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
@@ -7,8 +8,40 @@ import RecentOrdersTable from "../components/adminDashboardComponents/RecentOrde
 import TopPerformingSKUs from "../components/adminDashboardComponents/TopPerformingSKUs";
 import VoltMartEdgeGrid from "../components/adminDashboardComponents/VoltMartEdgeGrid";
 import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
+import { useAdminAppContext } from "../context/AdminAppContext";
 
 function AdminDashBoard() {
+  const { dashboardStats, dashboardLoading, dashboardError } =
+    useAdminAppContext();
+
+  // Dash board card data
+  const cards = [
+    {
+      label: "GROSS REVENUE",
+      value: `₹ ${dashboardStats?.totalRevenue}`,
+      icon: Banknote,
+      iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
+    },
+    {
+      label: "TOTAL FULFILLMENT",
+      value: dashboardStats?.totalFulfillment,
+      icon: Truck,
+      iconStyle: "bg-[#0E1A30] border-blue-800/50 text-blue-400",
+    },
+    {
+      label: "TOTAL PRODUCTS",
+      value: dashboardStats?.totalProducts,
+      icon: Cpu,
+      iconStyle: "bg-[#1E1416] border-amber-900/50 text-amber-500",
+    },
+    {
+      label: "CLIENTS",
+      value: dashboardStats?.totalCustomers,
+      icon: Share2,
+      iconStyle: "bg-[#0E1A30] border-cyan-800/50 text-cyan-400",
+    },
+  ];
+
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
@@ -21,7 +54,11 @@ function AdminDashBoard() {
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Status Card Component Fatta!</div>}>
-          <MissionControlKPICards />
+          <MissionControlKPICards
+            cards={cards}
+            loading={dashboardLoading}
+            error={dashboardError}
+          />
         </ErrorBoundary>
 
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">

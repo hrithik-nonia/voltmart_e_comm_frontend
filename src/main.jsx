@@ -7,17 +7,20 @@ import App from "./App.jsx";
 import { MessageProvider } from "./context/MessageContext.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import { AppDataProvider } from "./context/AppDataProvider.jsx";
+import { AdminAppProvider } from "./context/AdminAppContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <MessageProvider>
-      <ApolloProvider client={client}>
-        <AppProvider>
-          <AppDataProvider>
-            <App />
-          </AppDataProvider>
-        </AppProvider>
-      </ApolloProvider>
-    </MessageProvider>
+    <ApolloProvider client={client}>
+      <MessageProvider>
+        <AdminAppProvider>
+          <AppProvider>
+            <AppDataProvider>
+              <App />
+            </AppDataProvider>
+          </AppProvider>
+        </AdminAppProvider>
+      </MessageProvider>
+    </ApolloProvider>
   </StrictMode>,
 );
