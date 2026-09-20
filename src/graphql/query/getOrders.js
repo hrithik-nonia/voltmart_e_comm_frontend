@@ -48,3 +48,34 @@ export const GET_ORDER_BY_ID = gql`
     }
   }
 `;
+
+
+export const GET_ORDERS_INFO_FOR_ADMIN = gql`
+  query getOrdersInfoForAdmin($page: Int!, $limit: Int!, $days: Int){
+    getOrdersInfoForAdmin(page: $page, limit: $limit, days: $days) {
+      orders {
+        id
+        orderNumber
+        customerName
+        customerEmail
+        productName
+        fulfillmentStatus
+        paymentMethod
+        totalPrice
+        orderDate
+        quantity
+        specsType {       
+          brand
+          color
+          warranty
+        }
+      }
+      pagination {
+        page
+        limit
+        total
+        hasNext
+      }
+    }
+  }
+`

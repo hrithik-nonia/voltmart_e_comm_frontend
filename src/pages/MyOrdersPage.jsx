@@ -7,6 +7,7 @@ import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import { useNavigate } from "react-router-dom";
 import { CANCEL_ORDER } from "../graphql/mutations/order";
 import { useMessage } from "../context/MessageContext";
+import { BadgeStyle } from "../utils/smallFunctions";
 
 export default function MyOrdersDashboard() {
   const navigate = useNavigate();
@@ -54,20 +55,6 @@ export default function MyOrdersDashboard() {
       minute: "2-digit",
       timeZone: "Asia/Kolkata",
     });
-  };
-
-  // order status style
-  const style = (status) => {
-    let styleStatus = status.toLowerCase();
-    if (styleStatus === "pending") {
-      return "bg-amber-950/80 border-amber-800/60 text-amber-400";
-    } else if (styleStatus === "delivered") {
-      return "bg-emerald-950/80 border-emerald-800/60 text-emerald-400";
-    } else if (styleStatus === "shipped") {
-      return "bg-blue-950/80 border-blue-800/60 text-blue-400";
-    } else if (styleStatus === "cancelled") {
-      return "bg-red-950/80 border-red-800/60 text-red-400";
-    }
   };
 
   // payment status style
@@ -159,7 +146,7 @@ export default function MyOrdersDashboard() {
 
                   {/* Status Badge */}
                   <span
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-mono font-bold ${style(order?.deliveryStatus)}`}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-mono font-bold ${BadgeStyle(order?.deliveryStatus)}`}
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-current inline-block" />
                     {order?.deliveryStatus}
@@ -256,7 +243,7 @@ export default function MyOrdersDashboard() {
             onClose={() => setShowDetailOrderData(false)}
             orderId={orderId}
             readableDate={readableDate}
-            badgeStyle={style}
+            badgeStyle={BadgeStyle}
             paymentStyle={paymentStyle}
           />
         </ErrorBoundary>

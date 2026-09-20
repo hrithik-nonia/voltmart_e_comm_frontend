@@ -23,19 +23,49 @@ export function AdminHeaderComp({
   btnText,
   onclick,
   handleExport,
+  setDaysFilterForTableData,
   onDateRangeChange = () => {},
 }) {
   const location = useLocation();
-  const [selectedRange, setSelectedRange] = useState("Last 30 Days");
+  const [selectedRange, setSelectedRange] = useState("Today");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dayInNumber, setDayInNumber] = useState(1);
 
   const dateRangeOptions = [
-    "Real-time (Live)",
     "Today",
     "Last 7 Days",
     "Last 30 Days",
+    "Last 60 Days",
     "Last 90 Days",
   ];
+
+  const handleClickDays = (day) => {
+    const dayInLowerCase = day.toLowerCase();
+    if (dayInLowerCase === "today") {
+      setDayInNumber(1);
+      setDaysFilterForTableData(1);
+    } else if (dayInLowerCase === "last 7 days") {
+      setDayInNumber(7);
+      setDaysFilterForTableData(7);
+    } else if (dayInLowerCase === "last 30 days") {
+      setDayInNumber(30);
+      setDaysFilterForTableData(30);
+    } else if (dayInLowerCase === "last 60 days") {
+      setDayInNumber(60);
+      setDaysFilterForTableData(60);
+    } else if (dayInLowerCase === "last 90 days") {
+      setDayInNumber(90);
+      setDaysFilterForTableData(90);
+    }
+  };
+
+  const handleExportBtn = (days) => {
+    {
+      location.pathname === "/adminDashboard"
+        ? handleExport(days)
+        : handleExport();
+    }
+  };
 
   return (
     <header>
@@ -83,6 +113,7 @@ export function AdminHeaderComp({
                           setSelectedRange(option);
                           setIsDropdownOpen(false);
                           onDateRangeChange(option);
+                          handleClickDays(option);
                         }}
                         className={`w-full px-4 py-2 text-xs font-semibold text-left transition-colors ${
                           selectedRange === option
@@ -113,9 +144,10 @@ export function AdminHeaderComp({
           </div>
 
           {/* Export Telemetry (CSV) */}
+
           <button
             type="button"
-            onClick={handleExport}
+            onClick={() => handleExportBtn(dayInNumber)}
             className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#111C33] hover:bg-slate-800/80 border border-slate-800 text-xs sm:text-sm font-semibold text-slate-200 transition-colors cursor-pointer"
           >
             <Download className="h-4 w-4 text-slate-400 stroke-[2.2]" />

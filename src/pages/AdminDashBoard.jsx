@@ -5,14 +5,37 @@ import { Banknote, Truck, Cpu, Share2 } from "lucide-react";
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import RecentOrdersTable from "../components/adminDashboardComponents/RecentOrdersTable";
-import TopPerformingSKUs from "../components/adminDashboardComponents/TopPerformingSKUs";
-import VoltMartEdgeGrid from "../components/adminDashboardComponents/VoltMartEdgeGrid";
 import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
 import { useAdminAppContext } from "../context/AdminAppContext";
+import { exportOrdersCSV } from "../api/getApis";
+import { useMessage } from "../context/MessageContext";
+import { GET_ORDERS_INFO_FOR_ADMIN } from "../graphql/query/getOrders";
+import { useQuery } from "@apollo/client/react";
+import { useState } from "react";
 
 function AdminDashBoard() {
+  // get error messsage setter from context
+  const { showError } = useMessage();
   const { dashboardStats, dashboardLoading, dashboardError } =
     useAdminAppContext();
+
+  // set page, set limit, set days
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [days, setDays] = useState(1);
+
+  // get orders data info for admin
+  const {
+    data: orderData,
+    loading: orderLoading,
+    error: orderError,
+  } = useQuery(GET_ORDERS_INFO_FOR_ADMIN, {
+    variables: {
+      page: page,
+      limit: limit,
+      days: days,
+    },
+  });
 
   // Dash board card data
   const cards = [
@@ -42,6 +65,15 @@ function AdminDashBoard() {
     },
   ];
 
+  // handle click export order csv
+  const handleExportOrderCSV = async (days) => {
+    try {
+      await exportOrdersCSV(days);
+    } catch (error) {
+      showError(error?.message);
+    }
+  };
+
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
@@ -50,6 +82,8 @@ function AdminDashBoard() {
             heading="Mission Control & Velocity"
             text="Real-time sales velocity, hardware fulfillment pipelines, and
             quantum telemetry node acquisition metrics."
+            handleExport={handleExportOrderCSV}
+            setDaysFilterForTableData={setDays}
           />
         </ErrorBoundary>
 
@@ -61,25 +95,19 @@ function AdminDashBoard() {
           />
         </ErrorBoundary>
 
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
-          <div className="lg:col-span-4">
+        <div>
+          <div>
             <ErrorBoundary
               fallback={<div>Tracking Table Component Fatta!</div>}
             >
-              <RecentOrdersTable />
-            </ErrorBoundary>
-          </div>
-
-          <div className="lg:col-span-2 space-y-5">
-            <ErrorBoundary
-              fallback={<div>Top Performing sku Component Fatta!</div>}
-            >
-              <TopPerformingSKUs />
-            </ErrorBoundary>
-            <ErrorBoundary
-              fallback={<div>Server Speed Tracker Component Fatta!</div>}
-            >
-              <VoltMartEdgeGrid />
+              <RecentOrdersTable
+                data={orderData?.getOrdersInfoForAdmin || []}
+                loading={orderLoading}
+                error={orderError}
+                setPage={setPage}
+                setLimit={setLimit}
+                limit={limit}
+              />
             </ErrorBoundary>
           </div>
         </div>
