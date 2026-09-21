@@ -106,7 +106,6 @@ function AdminDashBoard() {
                 error={orderError}
                 setPage={setPage}
                 setLimit={setLimit}
-                limit={limit}
               />
             </ErrorBoundary>
           </div>

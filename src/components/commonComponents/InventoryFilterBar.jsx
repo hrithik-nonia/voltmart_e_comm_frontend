@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, ChevronDown, Check, RotateCcw } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 export default function InventoryFilterBar({
   data,
@@ -10,6 +11,8 @@ export default function InventoryFilterBar({
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  // for track path
+  const location = useLocation();
 
   const [activeDropdown, setActiveDropdown] = useState(null);
   const inputRef = useRef(null);
@@ -92,27 +95,51 @@ export default function InventoryFilterBar({
 
               {activeDropdown === "cat" && (
                 <div className="absolute left-0 lg:right-0 lg:left-auto mt-2 w-56 bg-[#050A14] border border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 text-left">
-                  {loading ? (
+                  {location.pathname === "/adminOrderPage" ? (
                     <>
-                      <p>Loading...</p>
-                    </>
-                  ) : (
-                    <>
-                      {data?.getCategory?.map((opt) => (
+                      {data?.map((opt) => (
                         <button
-                          key={opt?.id}
+                          key={opt?.value}
                           type="button"
-                          onClick={() =>
-                            handleClickCategory(opt?.id, opt?.name)
-                          }
+                          onClick={() => {
+                            setCategory(opt?.value);
+                            setSelectedCategory(opt?.label);
+                            setActiveDropdown(null);
+                          }}
                           className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800/60 transition-colors"
                         >
-                          <span>{opt?.name}</span>
-                          {selectedCategory === opt?.name && (
+                          <span>{opt?.label}</span>
+                          {selectedCategory === opt?.label && ( // ✅ fix
                             <Check className="h-3.5 w-3.5 text-cyan-400" />
                           )}
                         </button>
                       ))}
+                    </>
+                  ) : (
+                    <>
+                      {loading ? (
+                        <>
+                          <p>Loading...</p>
+                        </>
+                      ) : (
+                        <>
+                          {data?.getCategory?.map((opt) => (
+                            <button
+                              key={opt?.id}
+                              type="button"
+                              onClick={() =>
+                                handleClickCategory(opt?.id, opt?.name)
+                              }
+                              className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800/60 transition-colors"
+                            >
+                              <span>{opt?.name}</span>
+                              {selectedCategory === opt?.name && (
+                                <Check className="h-3.5 w-3.5 text-cyan-400" />
+                              )}
+                            </button>
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                 </div>

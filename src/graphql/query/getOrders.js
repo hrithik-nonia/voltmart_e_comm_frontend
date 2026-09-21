@@ -51,8 +51,8 @@ export const GET_ORDER_BY_ID = gql`
 
 
 export const GET_ORDERS_INFO_FOR_ADMIN = gql`
-  query getOrdersInfoForAdmin($page: Int!, $limit: Int!, $days: Int){
-    getOrdersInfoForAdmin(page: $page, limit: $limit, days: $days) {
+  query getOrdersInfoForAdmin($page: Int!, $limit: Int!, $days: Int, $fulfillmentStatus: String){
+    getOrdersInfoForAdmin(page: $page, limit: $limit, days: $days, fulfillmentStatus: $fulfillmentStatus) {
       orders {
         id
         orderNumber
@@ -78,4 +78,4 @@ export const GET_ORDERS_INFO_FOR_ADMIN = gql`
       }
     }
   }
-`
+`;

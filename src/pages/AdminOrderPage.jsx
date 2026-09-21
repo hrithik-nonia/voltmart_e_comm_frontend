@@ -8,10 +8,47 @@ import InventoryFilterBar from "../components/commonComponents/InventoryFilterBa
 import OrderDashboard from "../components/adminOrdersPageComp/OrderDashboard";
 import { AdminHeaderComp } from "../components/commonComponents/SmallComponents";
 import { useAdminAppContext } from "../context/AdminAppContext";
+import { GET_ORDERS_INFO_FOR_ADMIN } from "../graphql/query/getOrders";
+import { useQuery } from "@apollo/client/react";
+import { useState } from "react";
+import { exportOrdersCSV } from "../api/getApis";
+import { useMessage } from "../context/MessageContext";
 
 function AdminOrderPage() {
   const { dashboardLoading, dashboardError, dashboardStats } =
     useAdminAppContext();
+
+  // get error message setter from context
+  const { showError } = useMessage();
+
+  // set page, set limit, set days
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [days, setDays] = useState(1);
+  const [filterStatus, setFilterStatus] = useState(null);
+
+  // get orders data info for admin
+  const {
+    data: orderData,
+    loading: orderLoading,
+    error: orderError,
+  } = useQuery(GET_ORDERS_INFO_FOR_ADMIN, {
+    variables: {
+      page: page,
+      limit: limit,
+      days: days,
+      fulfillmentStatus: filterStatus,
+    },
+  });
+
+  // handle click export order csv
+  const handleExportOrderCSV = async (days) => {
+    try {
+      await exportOrdersCSV(days);
+    } catch (error) {
+      showError(error?.message);
+    }
+  };
 
   // Order Card Data
   const ordersCaraData = [
@@ -41,6 +78,16 @@ function AdminOrderPage() {
     },
   ];
 
+  // filter options
+  const filterOptions = [
+    { label: "All Categories", value: null },
+    { label: "Pending", value: "pending" },
+    { label: "Confirmed", value: "confirmed" },
+    { label: "Shipped", value: "shipped" },
+    { label: "Delivered", value: "delivered" },
+    { label: "Cancelled", value: "cancelled" },
+  ];
+
   return (
     <>
       <section className="bg-[#070D19] p-6 sm:p-8 text-white font-sans space-y-5">
@@ -49,6 +96,8 @@ function AdminOrderPage() {
             heading="Orders"
             text="Monitor and manage customer orders, routing telemetry, and regional
             fulfillment velocity across global distribution clusters."
+            setDaysFilterForTableData={setDays}
+            handleExport={handleExportOrderCSV}
           />
         </ErrorBoundary>
 
@@ -61,11 +110,20 @@ function AdminOrderPage() {
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Filter Bar Component Fatta!</div>}>
-          <InventoryFilterBar />
+          <InventoryFilterBar
+            setCategory={setFilterStatus}
+            data={filterOptions}
+          />
         </ErrorBoundary>
 
         <ErrorBoundary fallback={<div>Order Dashboard Component Fatta!</div>}>
-          <OrderDashboard />
+          <OrderDashboard
+            data={orderData?.getOrdersInfoForAdmin || []}
+            loading={orderLoading}
+            error={orderError}
+            setPage={setPage}
+            setLimit={setLimit}
+          />
         </ErrorBoundary>
       </section>
     </>

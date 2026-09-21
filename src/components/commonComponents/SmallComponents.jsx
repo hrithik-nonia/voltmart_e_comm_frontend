@@ -61,7 +61,8 @@ export function AdminHeaderComp({
 
   const handleExportBtn = (days) => {
     {
-      location.pathname === "/adminDashboard"
+      location.pathname === "/adminDashboard" ||
+      location.pathname === "/adminOrderPage"
         ? handleExport(days)
         : handleExport();
     }
