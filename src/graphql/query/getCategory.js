@@ -11,3 +11,18 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+
+export const GET_CATEGORY_FOR_ADMIN = gql`
+  query GetAdminCategory($status: String){
+    getAdminCategory (status: $status) {
+      id
+      name
+      slug
+      description
+      icon
+      totalProducts
+      status
+    }
+  }
+`;

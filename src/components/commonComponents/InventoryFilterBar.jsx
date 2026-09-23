@@ -95,7 +95,8 @@ export default function InventoryFilterBar({
 
               {activeDropdown === "cat" && (
                 <div className="absolute left-0 lg:right-0 lg:left-auto mt-2 w-56 bg-[#050A14] border border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 text-left">
-                  {location.pathname === "/adminOrderPage" ? (
+                  {location.pathname === "/adminOrderPage" ||
+                  location.pathname === "/adminCategoriePage" ? (
                     <>
                       {data?.map((opt) => (
                         <button

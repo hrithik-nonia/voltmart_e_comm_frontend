@@ -25,3 +25,16 @@ export const exportOrdersCSV = async (days) => {
   a.click();
   window.URL.revokeObjectURL(url);
 };
+
+export const exportCategoryCSV = async () => {
+  const response = await axiosInstance.get("/export/category", {
+    responseType: "blob"
+  })
+
+  const url = window.URL.createObjectURL(new Blob([response.data]))
+  const a = document.createElement("a")
+  a.href = url;
+  a.download = "voltmart_category_last.csv";
+  a.click();
+  window.URL.revokeObjectURL(url);
+}

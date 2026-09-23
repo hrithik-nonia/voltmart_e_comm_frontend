@@ -1,83 +1,26 @@
-import {
-  Cpu,
-  Smartphone,
-  Monitor,
-  Headphones,
-  Terminal,
-  Zap,
-  Bot,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import * as Icons from "lucide-react";
 
-const categories = [
-  {
-    name: "Neural Compute",
-    code: "TAX-NC-098",
-    description: "Tensor Accelerators & NPUs",
-    units: 412,
-    status: "Active",
-    date: "Oct 24, 2024 · 14:10",
-    icon: Cpu,
-  },
-  {
-    name: "Peripherals",
-    code: "TAX-PR-332",
-    description: "Split Hall Deck & Keyboards",
-    units: 238,
-    status: "Active",
-    date: "Oct 24, 2024 · 13:45",
-    icon: Smartphone,
-  },
-  {
-    name: "Displays",
-    code: "TAX-DP-412",
-    description: "Curved QD-OLED & Telemetry Panels",
-    units: 186,
-    status: "Active",
-    date: "Oct 24, 2024 · 11:20",
-    icon: Monitor,
-  },
-  {
-    name: "Acoustics",
-    code: "TAX-AC-104",
-    description: "Planar Magnetic Headsets",
-    units: 124,
-    status: "Active",
-    date: "Oct 23, 2024 · 21:05",
-    icon: Headphones,
-  },
-  {
-    name: "Terminals",
-    code: "TAX-TM-650",
-    description: "Satellite Comms & Mobile Decks",
-    units: 94,
-    status: "Active",
-    date: "Oct 23, 2024 · 18:30",
-    icon: Terminal,
-  },
-  {
-    name: "Power & Thermal",
-    code: "TAX-PT-880",
-    description: "Cryo-Loop Coolers & PSUs",
-    units: 0,
-    status: "Inactive",
-    date: "Oct 18, 2024 · 09:12",
-    icon: Zap,
-    dormant: true,
-  },
-  {
-    name: "Robotics & Automation",
-    code: "TAX-RB-901",
-    description: "High-precision Actuators",
-    units: 374,
-    status: "Active",
-    date: "Oct 15, 2024 · 08:00",
-    icon: Bot,
-  },
-];
+const CategoryTable = ({ data, loading, error }) => {
+  // handle loading
+  if (loading)
+    return (
+      <>
+        <div className="h-60 bg-gray-800 flex justify-center items-center text-lg font-semibold">
+          Loading...
+        </div>
+      </>
+    );
 
-const CategoryTable = () => {
+  // handle error
+  if (error)
+    return (
+      <>
+        <div className="h-60 bg-gray-800 flex justify-center items-center text-lg font-semibold">
+          {error?.message}
+        </div>
+      </>
+    );
+
   return (
     <div className="w-full overflow-hidden rounded-xl border border-slate-800/80 bg-[#080f20]">
       {/* Table */}
@@ -86,25 +29,21 @@ const CategoryTable = () => {
           {/* Header */}
           <thead>
             <tr className="h-[52px] border-b border-slate-800/80 bg-[#0d172b]">
-              <th className="w-[38%] px-5 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+              <th className="w-[43%] px-5 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                 Category
               </th>
 
-              <th className="w-[16%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+              <th className="w-[21%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                 Allocated SKUs
               </th>
 
-              <th className="w-[17%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+              <th className="w-[22%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                 Operational
                 <br />
                 Status
               </th>
 
-              <th className="w-[20%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                Last Telemetry Stamp
-              </th>
-
-              <th className="w-[9%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+              <th className="w-[14%] px-4 text-left text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                 Actions
               </th>
             </tr>
@@ -112,12 +51,12 @@ const CategoryTable = () => {
 
           {/* Body */}
           <tbody>
-            {categories.map((category) => {
-              const Icon = category.icon;
+            {data.map((cat) => {
+              const Icon = Icons[cat.icon] || Icons.CircleHelp;
 
               return (
                 <tr
-                  key={category.code}
+                  key={cat.id}
                   className="
                     h-[65px]
                     border-b border-slate-800/70
@@ -148,13 +87,12 @@ const CategoryTable = () => {
                       {/* Name + metadata */}
                       <div className="min-w-0">
                         <div className="text-[11px] font-bold text-slate-100">
-                          {category.name}
+                          {cat.name}
                         </div>
 
                         <div className="mt-[2px] truncate font-mono text-[9px] text-slate-500">
-                          {category.code}
                           <span className="mx-2 text-slate-700">•</span>
-                          {category.description}
+                          {cat.description}
                         </div>
                       </div>
                     </div>
@@ -164,13 +102,13 @@ const CategoryTable = () => {
                   <td className="px-4">
                     <div className="flex items-baseline gap-1">
                       <span className="text-[12px] font-bold text-slate-100">
-                        {category.units}
+                        {cat.totalProducts}
                       </span>
 
                       <span className="text-[10px] text-slate-400">Units</span>
                     </div>
 
-                    {category.dormant && (
+                    {cat.isActive && (
                       <span className="font-mono text-[9px] text-slate-500">
                         (Dormant)
                       </span>
@@ -188,7 +126,7 @@ const CategoryTable = () => {
                         text-[9px]
                         font-semibold
                         ${
-                          category.status === "Active"
+                          cat.status === "Active"
                             ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-400"
                             : "border-slate-700 bg-slate-800/70 text-slate-500"
                         }
@@ -198,31 +136,20 @@ const CategoryTable = () => {
                         className={`
                           h-1.5 w-1.5 rounded-full
                           ${
-                            category.status === "Active"
+                            cat.status === "Active"
                               ? "bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.7)]"
                               : "bg-slate-500"
                           }
                         `}
                       />
 
-                      {category.status}
+                      {cat.status}
                     </span>
-                  </td>
-
-                  {/* Telemetry */}
-                  <td className="px-4">
-                    <div className="font-mono text-[9px] leading-[15px] text-slate-400">
-                      {category.date}
-                    </div>
-
-                    <div className="font-mono text-[9px] text-slate-400">
-                      UTC
-                    </div>
                   </td>
 
                   {/* Actions */}
                   <td className="px-4">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-10">
                       <button
                         type="button"
                         className="
@@ -232,7 +159,7 @@ const CategoryTable = () => {
                         "
                         title="Edit"
                       >
-                        <Pencil size={14} strokeWidth={1.7} />
+                        <Icons.Pencil size={14} strokeWidth={1.7} />
                       </button>
 
                       <button
@@ -244,7 +171,7 @@ const CategoryTable = () => {
                         "
                         title="Delete"
                       >
-                        <Trash2 size={14} strokeWidth={1.7} />
+                        <Icons.Trash2 size={14} strokeWidth={1.7} />
                       </button>
                     </div>
                   </td>
@@ -266,14 +193,8 @@ const CategoryTable = () => {
         "
       >
         <div className="font-mono text-[9px] text-slate-400">
-          Displaying <span className="text-slate-300">7 Categories</span> • Mesh
-          Shards: <span className="text-slate-300">US-East / EU-West</span>
-        </div>
-
-        <div className="flex items-center gap-2 font-mono text-[9px] text-slate-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
-
-          <span>Sync Latency: 12ms</span>
+          Displaying{" "}
+          <span className="text-slate-300">{data.length} Categories</span>
         </div>
       </div>
     </div>
