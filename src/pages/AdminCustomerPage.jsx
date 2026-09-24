@@ -7,6 +7,7 @@ import ErrorBoundary from "../components/commonComponents/ErrorBoundary";
 import MissionControlKPICards from "../components/commonComponents/MissionControlKPICards";
 import InventoryFilterBar from "../components/commonComponents/InventoryFilterBar";
 import { useAdminAppContext } from "../context/AdminAppContext";
+import CustomerNodesTable from "../components/adminCustomerPageComp/CustomerNodesTable";
 
 function AdminCustomersPage() {
   const { customerStats, customerLoading, customerError } =
@@ -59,6 +60,10 @@ function AdminCustomersPage() {
 
         <ErrorBoundary fallback={<div>Filter Bar Component Fatta!</div>}>
           <InventoryFilterBar />
+        </ErrorBoundary>
+
+        <ErrorBoundary fallback={<div>customer table Component Fatta!</div>}>
+          <CustomerNodesTable />
         </ErrorBoundary>
       </section>
     </>
